@@ -465,13 +465,127 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
  .drawer-grid{grid-template-columns:1fr}
  .box.full{grid-column:auto}
 }
+
+/* Header simplification: Chroma Knows logo is now the only brand mark */
+.brand-logo-wrap,
+.hero-copy,
+.header-copy,
+.title-block{
+ margin-left:0 !important;
+}
+
+
+
+.spanning-hero{
+ margin:26px 0 12px;
+ border:1px solid rgba(181,156,255,.30);
+ border-radius:18px;
+ background:
+   linear-gradient(135deg,rgba(181,156,255,.11),rgba(112,229,255,.05)),
+   var(--panel);
+ padding:20px 22px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:20px;
+ box-shadow:0 16px 40px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.025);
+}
+.spanning-hero-main{min-width:240px}
+.spanning-hero-kicker{
+ font-size:9px;
+ letter-spacing:.16em;
+ color:var(--violet);
+ font-weight:900;
+ margin-bottom:5px;
+}
+.spanning-hero-title{
+ font-size:28px;
+ line-height:1;
+ letter-spacing:-.02em;
+ font-weight:900;
+ color:var(--text);
+}
+.spanning-hero-desc{
+ margin-top:7px;
+ color:var(--muted);
+ font-size:11px;
+}
+.spanning-stats{
+ display:flex;
+ align-items:stretch;
+ gap:8px;
+}
+.spanning-stat{
+ min-width:86px;
+ padding:10px 12px;
+ border:1px solid rgba(181,156,255,.18);
+ border-radius:12px;
+ background:rgba(10,14,21,.42);
+ text-align:center;
+}
+.spanning-stat span{
+ display:block;
+ font-size:8px;
+ text-transform:uppercase;
+ letter-spacing:.11em;
+ color:var(--muted);
+ font-weight:900;
+ margin-bottom:4px;
+}
+.spanning-stat strong{
+ font-size:20px;
+ color:var(--text);
+}
+.spanning-package-note{
+ margin:0 0 12px;
+ border:1px solid rgba(181,156,255,.14);
+ background:rgba(181,156,255,.035);
+ border-radius:12px;
+ padding:11px 13px;
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.5;
+}
+.spanning-package-note b{color:var(--text)}
+.spanning-section-shell{
+ border:1px solid rgba(181,156,255,.19);
+ border-radius:18px;
+ overflow:hidden;
+ background:rgba(12,17,25,.46);
+}
+.spanning-section-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:14px 16px;
+ border-bottom:1px solid rgba(181,156,255,.14);
+ background:linear-gradient(90deg,rgba(181,156,255,.07),rgba(112,229,255,.025));
+}
+.spanning-section-head h2{
+ margin:0;
+ font-size:13px;
+ letter-spacing:.08em;
+ font-weight:900;
+}
+.spanning-section-head span{
+ color:var(--muted);
+ font-size:9px;
+ font-weight:800;
+}
+.spanning-section-body{padding:14px}
+@media(max-width:760px){
+ .spanning-hero{align-items:flex-start;flex-direction:column}
+ .spanning-stats{width:100%}
+ .spanning-stat{flex:1;min-width:0}
+}
+
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
   <div class="brand">
-    <div class="logo">EU</div>
+    
     <div>
       <div class="kicker">CHROMA KNOWS · PRODUCTION HANDOFF</div>
       <div class="brand-logo-wrap">
@@ -512,21 +626,22 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
 
 <div id="columnGroups"></div>
 
-<div class="spanning-wrap">
-<details class="spanning-shell">
-  <summary>
-    <div>
-      <div class="spanning-kicker">SECONDARY PACKAGE</div>
-      <div class="spanning-title">SPANNING VIDEOS</div>
-    </div>
-    <div class="spanning-summary-right"><span id="otherCount">5 videos</span><span class="chevron">＋</span></div>
-  </summary>
-  <div class="spanning-body">
-    <div class="spanning-note">Spanning-screen deliverables are shown here for reference. Open any video for its own playback, timing, dimensions, and notes.</div>
-    <div id="otherList"></div>
+<section class="spanning-hero">
+  <div class="spanning-hero-main">
+    <div class="spanning-hero-kicker">SECONDARY PRODUCTION PACKAGE</div>
+    <div class="spanning-hero-title">SPANNING VIDEOS</div>
+    <div class="spanning-hero-desc">Spanning-screen deliverables for production playback.</div>
   </div>
-</details>
-</div>
+  <div class="spanning-stats">
+    <div class="spanning-stat"><span>Total</span><strong id="sTotal">5</strong></div>
+    <div class="spanning-stat"><span>Tested</span><strong id="sTested">0</strong></div>
+    <div class="spanning-stat"><span>Delivered</span><strong id="sDelivered">0</strong></div>
+  </div>
+</section>
+
+<div class="spanning-package-note"><b>Spanning package:</b> 2048 × 768 spanning-screen deliverables. Open Details for timing, playback information, and technical notes.</div>
+
+<div id="spanningPackage"></div>
 
 <footer>UNAVERSE / EUNAVERSE 2026 · 30 fps · Production column-video handoff.</footer>
 </div>
@@ -667,17 +782,26 @@ function render(){
       </section>`
    : '<div class="empty">No column videos match the filters.</div>';
  document.getElementById("columnGroups").innerHTML=html;
- document.getElementById("otherList").innerHTML=
-   `<div class="list">
-      <div class="column-labels">
-        <div>ID</div><div>Video</div><div>Playback Info</div><div class="status-label">Client Status</div><div>Sonar Tested</div><div class="right">Actions</div>
+ document.getElementById("spanningPackage").innerHTML=
+   `<section class="spanning-section-shell">
+      <div class="spanning-section-head"><h2>SPANNING VIDEOS</h2><span>${spanning.length} video${spanning.length===1?"":"s"}</span></div>
+      <div class="spanning-section-body">
+       <div class="list">
+        <div class="column-labels">
+          <div>ID</div><div>Video</div><div>Playback Info</div><div class="status-label">Client Status</div><div>Tested</div><div class="right">Actions</div>
+        </div>
+        ${spanning.map(v=>rowHtml(v,true)).join("")}
+       </div>
       </div>
-      ${spanning.map(v=>rowHtml(v,true)).join("")}
-    </div>`;
- document.getElementById("otherCount").textContent=`${spanning.length} video${spanning.length===1?"":"s"}`;
+    </section>`;
+
  document.getElementById("mTotal").textContent=rows.filter(v=>v.layout==="Columns").length;
  document.getElementById("mSonar").textContent=rows.filter(v=>v.layout==="Columns"&&v.sonar).length;
  document.getElementById("mDelivered").textContent=rows.filter(v=>v.layout==="Columns"&&v.delivered).length;
+
+ document.getElementById("sTotal").textContent=spanning.length;
+ document.getElementById("sTested").textContent=spanning.filter(v=>v.sonar).length;
+ document.getElementById("sDelivered").textContent=spanning.filter(v=>v.delivered).length;
  attachDetails();
 }
 function buildStatuses(){
