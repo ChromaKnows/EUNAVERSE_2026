@@ -83,22 +83,181 @@ button:hover,a.btn:hover{border-color:#43516a}
 .box b{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#cdd5e3;margin-bottom:5px}
 .box p{font-size:10px;line-height:1.5;color:var(--muted);margin:0}
 .box.full{grid-column:1/-1}
-.other-wrap{margin-top:24px}
-.other{
- border:1px solid var(--line);border-radius:14px;background:rgba(20,25,35,.78);overflow:hidden
+.spanning-wrap{margin-top:24px}
+.spanning-shell{
+ border:1px solid rgba(181,156,255,.22);
+ border-radius:18px;
+ overflow:hidden;
+ background:rgba(12,17,25,.46);
 }
-.other summary{
- cursor:pointer;list-style:none;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;
- color:var(--muted);font-size:12px;font-weight:800;
+.spanning-shell summary{
+ cursor:pointer;
+ list-style:none;
+ padding:15px 17px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:12px;
+ background:linear-gradient(90deg,rgba(181,156,255,.075),rgba(112,229,255,.035));
 }
-.other summary::-webkit-details-marker{display:none}
-.other summary:after{content:"＋";font-size:16px;color:var(--cyan)}
-.other[open] summary:after{content:"−"}
-.other-content{border-top:1px solid var(--line)}
-.other .row{opacity:.86}
-.other-note{padding:0 16px 13px;color:var(--muted);font-size:10px;line-height:1.5}
+.spanning-shell summary::-webkit-details-marker{display:none}
+.spanning-kicker{
+ font-size:8px;
+ letter-spacing:.15em;
+ color:var(--violet);
+ font-weight:900;
+ margin-bottom:3px;
+}
+.spanning-title{
+ font-size:18px;
+ letter-spacing:.02em;
+ font-weight:800;
+ color:var(--text);
+}
+.spanning-summary-right{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ color:var(--muted);
+ font-size:10px;
+}
+.spanning-summary-right .chevron{
+ color:var(--cyan);
+ font-size:17px;
+ line-height:1;
+}
+.spanning-shell[open] .chevron{font-size:0}
+.spanning-shell[open] .chevron:after{content:"−";font-size:17px}
+.spanning-body{
+ border-top:1px solid rgba(181,156,255,.16);
+ padding:0 14px 15px;
+}
+.spanning-note{
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.5;
+ padding:13px 2px 10px;
+}
+.spanning-body .list{margin-bottom:0}
 .empty{padding:30px;text-align:center;color:var(--muted)}
 footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
+
+.column-hero{
+ margin:14px 0 12px;
+ border:1px solid rgba(112,229,255,.28);
+ border-radius:18px;
+ background:
+   linear-gradient(135deg,rgba(112,229,255,.10),rgba(181,156,255,.07)),
+   var(--panel);
+ padding:20px 22px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:20px;
+ box-shadow:0 16px 40px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.025);
+}
+.column-hero-main{min-width:240px}
+.column-kicker{
+ font-size:9px;
+ letter-spacing:.16em;
+ color:var(--cyan);
+ font-weight:900;
+ margin-bottom:5px;
+}
+.column-title{
+ font-size:clamp(26px,4vw,42px);
+ line-height:1;
+ letter-spacing:.02em;
+ font-weight:950;
+}
+.column-desc{
+ color:var(--muted);
+ font-size:11px;
+ margin-top:8px;
+}
+.column-stats{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(92px,1fr));
+ gap:8px;
+ min-width:min(420px,48%);
+}
+.column-stat{
+ border:1px solid rgba(255,255,255,.08);
+ background:rgba(8,13,20,.42);
+ border-radius:12px;
+ padding:11px 13px;
+}
+.column-stat span{
+ display:block;
+ color:var(--muted);
+ font-size:8px;
+ text-transform:uppercase;
+ letter-spacing:.1em;
+ font-weight:900;
+}
+.column-stat strong{
+ display:block;
+ font-size:22px;
+ margin-top:4px;
+}
+.column-shell{
+ margin-top:18px;
+ border:1px solid rgba(112,229,255,.22);
+ border-radius:18px;
+ overflow:hidden;
+ background:rgba(12,17,25,.46);
+}
+.column-shell-head{
+ padding:15px 17px;
+ border-bottom:1px solid rgba(112,229,255,.16);
+ background:linear-gradient(90deg,rgba(112,229,255,.075),rgba(181,156,255,.035));
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:12px;
+}
+.column-shell-head h2{
+ margin:0;
+ font-size:18px;
+ letter-spacing:.02em;
+}
+.column-shell-head span{
+ color:var(--muted);
+ font-size:10px;
+}
+.column-shell-body{padding:0 14px 15px}
+.subgroup{margin-top:16px}
+.subgroup:first-child{margin-top:14px}
+.subgroup-title{
+ display:flex;
+ align-items:center;
+ gap:8px;
+ margin:0 2px 7px;
+}
+.subgroup-title:before{
+ content:"";
+ width:4px;
+ height:14px;
+ border-radius:999px;
+ background:linear-gradient(180deg,var(--cyan),var(--violet));
+}
+.subgroup-title h3{
+ margin:0;
+ font-size:11px;
+ text-transform:uppercase;
+ letter-spacing:.1em;
+ color:#d8dfeb;
+}
+.subgroup-title span{
+ margin-left:auto;
+ color:var(--muted);
+ font-size:9px;
+}
+@media(max-width:720px){
+ .column-hero{align-items:flex-start;flex-direction:column}
+ .column-stats{min-width:0;width:100%}
+}
+
 @media(max-width:820px){
  .row{grid-template-columns:76px minmax(200px,1fr) 130px 90px}
  .status-col{display:none}
@@ -121,24 +280,30 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
     <div class="logo">EU</div>
     <div>
       <div class="kicker">CHROMA KNOWS · PRODUCTION HANDOFF</div>
-      <h1>EUNAVERSE 2026 Column Video Tracker</h1>
-      <div class="sub">Main-area and side-screen playback information for production.</div>
+      <h1>EUNAVERSE 2026 Video Tracker</h1>
+      <div class="sub">Column video playback and screen-package information for production.</div>
     </div>
   </div>
   <div class="actions">
-    <div id="sync" class="sync"><span class="dot"></span><span id="syncText">Snapshot ready</span></div>
-    <button id="refresh">↻ Sync Google Sheet</button>
-    <a class="btn" target="_blank" href="https://docs.google.com/spreadsheets/d/1cZG-TJWRtdoUNnU--xSelWxn_1HqwJ6Iio3C3J7wLVs/edit">Google Tracker ↗</a>
+    <div id="dataState" class="sync"><span class="dot"></span><span id="dataStateText">Saved data loaded</span></div>
+    <button id="refresh">↻ Refresh</button>
   </div>
 </header>
 
-<section class="metrics">
- <div class="metric"><span>Column Videos</span><strong id="mTotal">11</strong></div>
- <div class="metric"><span>Sonar Tested</span><strong id="mSonar">0</strong></div>
- <div class="metric"><span>Delivered</span><strong id="mDelivered">0</strong></div>
+<section class="column-hero">
+  <div class="column-hero-main">
+    <div class="column-kicker">PRIMARY PRODUCTION PACKAGE</div>
+    <div class="column-title">COLUMN VIDEOS</div>
+    <div class="column-desc">All videos shown below are column-screen deliverables.</div>
+  </div>
+  <div class="column-stats">
+    <div class="column-stat"><span>Total</span><strong id="mTotal">11</strong></div>
+    <div class="column-stat"><span>Sonar Tested</span><strong id="mSonar">0</strong></div>
+    <div class="column-stat"><span>Delivered</span><strong id="mDelivered">0</strong></div>
+  </div>
 </section>
 
-<div class="note"><b>Column package:</b> each column video uses a 2176 × 1024 main-area file plus one shared 1920 × 1080 side-screen export for both side screens. Expand a video only when you need playback details or notes.</div>
+<div class="note"><b>Column package:</b> 2176 × 1024 main-area video + one shared 1920 × 1080 side-screen export for both side screens. Open Details only when technical or playback information is needed.</div>
 
 <div class="toolbar">
  <input id="search" placeholder="Search column videos...">
@@ -147,11 +312,19 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
 
 <div id="columnGroups"></div>
 
-<div class="other-wrap">
-<details class="other">
-  <summary><span>Other Videos · Spanning</span><span id="otherCount">5 videos</span></summary>
-  <div class="other-note">These are included for reference only. Production can ignore this section unless spanning-screen information is needed.</div>
-  <div id="otherList" class="other-content"></div>
+<div class="spanning-wrap">
+<details class="spanning-shell">
+  <summary>
+    <div>
+      <div class="spanning-kicker">SECONDARY PACKAGE</div>
+      <div class="spanning-title">SPANNING VIDEOS</div>
+    </div>
+    <div class="spanning-summary-right"><span id="otherCount">5 videos</span><span class="chevron">＋</span></div>
+  </summary>
+  <div class="spanning-body">
+    <div class="spanning-note">Spanning-screen deliverables are shown here for reference. Open any video for its own playback, timing, dimensions, and notes.</div>
+    <div id="otherList"></div>
+  </div>
 </details>
 </div>
 
@@ -160,7 +333,10 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
 
 <script>
 const EMBEDDED=[{"id": "VID-001", "video": "Welcome to Austin, Y'all", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-002", "video": "Orbiting Product Planets +", "layout": "Spanning", "duration": "2:00", "frames": "3600", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "High dependency on final product graphics and copy | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-004", "video": "Space Cowboy", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Highest CGI risk | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-005", "video": "Moon Boots", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-006", "video": "Cosmo Loop", "layout": "Spanning", "duration": ":30 Loop", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Depends on usable source assets | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-007", "video": "Planetary Jump", "layout": "Columns", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Confirm final character and jump direction | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-008", "video": "Slow Planet Move", "layout": "Columns", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Confirm final ambient motion direction | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009", "video": "Product Ambient Budget", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009B", "video": "Product Ambient Grants", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009C", "video": "Product Ambient Payments", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009D", "video": "Product Ambient Procurement", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009E", "video": "Product Ambient Generic", "layout": "Columns", "duration": "TBD", "frames": "", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Generic Product Ambient for periods when no specific product is being discussed: starfield, twinkling stars, shooting stars/comets, subtle gradients, and gentle space motion. No product-specific messaging. Runtime TBD. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010A", "video": "Walk-In 01 - Welcome / Budget", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Rocket blasts in from the bottom, revealing a blank starry sky. Animate Welcome to Austin, Ya'll followed by EUNAVERSE 2026, then hold on the event branding while stars twinkle, comets shoot, and planets rotate. End with Budget product transition (Bars). Part 1 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010B", "video": "Walk-In 02 - Cosmo / Grants", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Planets hang out in frame. Cosmo jumps from one planet to the next, foreground to background, looping as needed to fill the runtime. End with Grants product transition (Squares). Part 2 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010C", "video": "Walk-In 03 - AI Rocket / Payments", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Product planets orbit on their axes. Bring the AI rocket back smaller and have it weave through space and around the planets to reinforce AI woven throughout the products. End with Payments product transition (Credit Card). Part 3 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010D", "video": "Walk-In 04 - Astronaut / Procurement", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Astronaut floats around in space and may wave to the audience. UFO can appear as a floating element without the chase story. End with Procurement product transition (Flower). Petals must transition fully off-screen to a clean gradient so the sequence can loop seamlessly back to Part 1. Part 4 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}];
-const LIVE_CSV_URL="https://docs.google.com/spreadsheets/d/1cZG-TJWRtdoUNnU--xSelWxn_1HqwJ6Iio3C3J7wLVs/gviz/tq?tqx=out:csv&gid=1969762866";
+const SHEET_ID="1cZG-TJWRtdoUNnU--xSelWxn_1HqwJ6Iio3C3J7wLVs";
+const SHEET_GID="1969762866";
+const LIVE_CSV_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${SHEET_GID}`;
+const LIVE_EXPORT_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
 
 const playback={
  "VID-001":["TBD","Confirm loop / hold / play-once behavior."],
@@ -200,7 +376,7 @@ function statusClass(s){
 function groupFor(v){
  if(v.id.startsWith("VID-009"))return"Product Ambient";
  if(v.id.startsWith("VID-010"))return"Walk-In Sequence";
- return"Column Videos";
+ return"General";
 }
 function rowHtml(v, spanning=false){
  return `<div class="item" data-id="${esc(v.id)}">
@@ -237,16 +413,26 @@ function render(){
    return (!q||hay.includes(q))&&(!status||v.status===status);
  });
  const spanning=rows.filter(v=>v.layout==="Spanning");
- const order=["Column Videos","Product Ambient","Walk-In Sequence"];
- let html="";
+ const order=["General","Product Ambient","Walk-In Sequence"];
+ let inner="";
  for(const g of order){
   const items=columns.filter(v=>groupFor(v)===g);
   if(!items.length)continue;
-  html+=`<section class="group"><div class="group-title"><h2>${g}</h2><span>${items.length} video${items.length===1?"":"s"}</span></div><div class="list">${items.map(v=>rowHtml(v)).join("")}</div></section>`;
+  inner+=`<section class="subgroup">
+    <div class="subgroup-title"><h3>${g}</h3><span>${items.length} video${items.length===1?"":"s"}</span></div>
+    <div class="list">${items.map(v=>rowHtml(v)).join("")}</div>
+  </section>`;
  }
- document.getElementById("columnGroups").innerHTML=html||'<div class="empty">No column videos match the filters.</div>';
- document.getElementById("otherList").innerHTML=spanning.map(v=>rowHtml(v,true)).join("");
- document.getElementById("otherCount").textContent=`${spanning.length} videos`;
+ const html=inner
+   ? `<section class="column-shell">
+        <div class="column-shell-head"><h2>COLUMN VIDEOS</h2><span>${columns.length} shown</span></div>
+        <div class="column-shell-body">${inner}</div>
+      </section>`
+   : '<div class="empty">No column videos match the filters.</div>';
+ document.getElementById("columnGroups").innerHTML=html;
+ document.getElementById("otherList").innerHTML=
+   `<div class="list">${spanning.map(v=>rowHtml(v,true)).join("")}</div>`;
+ document.getElementById("otherCount").textContent=`${spanning.length} video${spanning.length===1?"":"s"}`;
  document.getElementById("mTotal").textContent=rows.filter(v=>v.layout==="Columns").length;
  document.getElementById("mSonar").textContent=rows.filter(v=>v.layout==="Columns"&&v.sonar).length;
  document.getElementById("mDelivered").textContent=rows.filter(v=>v.layout==="Columns"&&v.delivered).length;
@@ -271,30 +457,89 @@ function csvParse(text){
  if(f.length||row.length){row.push(f);if(row.some(x=>x!==""))out.push(row);}
  return out;
 }
-async function syncLive(){
- const sync=document.getElementById("sync"),txt=document.getElementById("syncText");
- sync.className="sync";txt.textContent="Connecting to Google Sheet…";
- try{
-  const res=await fetch(LIVE_CSV_URL,{cache:"no-store"});
-  if(!res.ok)throw new Error(res.status);
-  const m=csvParse(await res.text()),h=m[0].map(x=>x.trim()),ix=n=>h.indexOf(n);
-  const need=["ID","Video","Screen Layout","Listed Duration","Total Frames (30 fps)","Status","Sonar Tested","Delivered","Notes"];
-  if(need.some(x=>ix(x)<0))throw new Error("columns");
-  const live=m.slice(1).filter(r=>r[ix("ID")]).map(r=>enrich({
-   id:r[ix("ID")]||"",video:r[ix("Video")]||"",layout:r[ix("Screen Layout")]||"",
-   duration:r[ix("Listed Duration")]||"",frames:r[ix("Total Frames (30 fps)")]||"",
-   status:r[ix("Status")]||"",sonar:String(r[ix("Sonar Tested")]).toLowerCase()==="true",
-   delivered:String(r[ix("Delivered")]).toLowerCase()==="true",notes:r[ix("Notes")]||""
-  }));
-  if(!live.length)throw new Error("empty");
-  rows=live;sync.className="sync live";txt.textContent="Live Google Sheet";
- }catch(e){
-  rows=EMBEDDED.map(enrich);sync.className="sync error";txt.textContent="Snapshot fallback";
+async function refreshFromGoogle(){
+ const state=document.getElementById("dataState");
+ const txt=document.getElementById("dataStateText");
+ const btn=document.getElementById("refresh");
+ const original=btn.textContent;
+
+ state.className="sync";
+ txt.textContent="Refreshing from Google Sheet…";
+ btn.disabled=true;
+ btn.textContent="Refreshing…";
+
+ const stamp=Date.now();
+ const candidates=[
+   `${LIVE_CSV_URL}&_=${stamp}`,
+   `${LIVE_EXPORT_URL}&_=${stamp}`
+ ];
+
+ let lastError=null;
+
+ for(const url of candidates){
+   try{
+     const res=await fetch(url,{
+       cache:"no-store",
+       redirect:"follow",
+       headers:{"Cache-Control":"no-cache","Pragma":"no-cache"}
+     });
+     if(!res.ok)throw new Error(`HTTP ${res.status}`);
+
+     const csv=await res.text();
+
+     // A private/login response is commonly HTML, not tracker CSV.
+     if(/<html|<!doctype/i.test(csv))throw new Error("Google returned a sign-in page");
+
+     const m=csvParse(csv);
+     if(!m.length)throw new Error("No sheet data returned");
+
+     const h=m[0].map(x=>x.trim());
+     const ix=n=>h.indexOf(n);
+     const need=["ID","Video","Screen Layout","Listed Duration","Total Frames (30 fps)","Status","Sonar Tested","Delivered","Notes"];
+     if(need.some(x=>ix(x)<0))throw new Error("The returned sheet does not contain the expected Video Tracker columns");
+
+     const live=m.slice(1).filter(r=>r[ix("ID")]).map(r=>enrich({
+       id:r[ix("ID")]||"",
+       video:r[ix("Video")]||"",
+       layout:r[ix("Screen Layout")]||"",
+       duration:r[ix("Listed Duration")]||"",
+       frames:r[ix("Total Frames (30 fps)")]||"",
+       status:r[ix("Status")]||"",
+       sonar:String(r[ix("Sonar Tested")]).toLowerCase()==="true",
+       delivered:String(r[ix("Delivered")]).toLowerCase()==="true",
+       notes:r[ix("Notes")]||""
+     }));
+
+     if(!live.length)throw new Error("No video rows returned");
+
+     rows=live;
+     buildStatuses();
+     render();
+
+     const now=new Date();
+     state.className="sync live";
+     txt.textContent=`Refreshed from Google · ${now.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"})}`;
+     btn.disabled=false;
+     btn.textContent=original;
+     return;
+   }catch(e){
+     lastError=e;
+   }
  }
- buildStatuses();render();
+
+ state.className="sync error";
+ txt.textContent="Google refresh unavailable · saved data shown";
+ btn.disabled=false;
+ btn.textContent=original;
+ console.warn("Google Sheet refresh failed:",lastError);
+ alert(
+   "The page could not read fresh data from Google Sheets. " +
+   "The saved tracker data is still displayed.\\n\\n" +
+   "This usually means the Google Sheet is not exposed through a browser-readable public/published endpoint."
+ );
 }
 ["search","status"].forEach(id=>document.getElementById(id).addEventListener(id==="search"?"input":"change",render));
-document.getElementById("refresh").addEventListener("click",syncLive);
+document.getElementById("refresh").addEventListener("click",refreshFromGoogle);
 buildStatuses();render();
 </script>
 </body>
