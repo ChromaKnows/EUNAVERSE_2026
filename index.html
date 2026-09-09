@@ -662,6 +662,61 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
  }
 }
 
+
+
+.preview-btn{
+ padding:7px 9px;
+ border:1px solid rgba(88,223,139,.26);
+ background:rgba(88,223,139,.065);
+ color:#8be6ac;
+ border-radius:9px;
+ font-size:9px;
+ font-weight:900;
+ text-decoration:none;
+ white-space:nowrap;
+}
+.preview-btn:hover{border-color:rgba(88,223,139,.50)}
+.preview-btn.pending{
+ opacity:.42;
+ cursor:not-allowed;
+ pointer-events:none;
+ color:var(--muted);
+ border-color:var(--line);
+ background:#10151e;
+}
+
+@media(min-width:621px){
+ .row-actions{
+  flex-wrap:nowrap;
+  gap:5px;
+ }
+ .row-actions .details-btn,
+ .row-actions .download-btn,
+ .row-actions .side-asset-btn,
+ .row-actions .preview-btn{
+  padding:7px 8px;
+ }
+}
+
+/* Four mobile actions in a clean 2 x 2 grid */
+@media(max-width:620px){
+ .row-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  width:100%;
+ }
+ .row-actions .details-btn,
+ .row-actions .download-btn,
+ .row-actions .side-asset-btn,
+ .row-actions .preview-btn{
+  width:100%;
+  min-width:0;
+  text-align:center;
+  justify-content:center;
+ }
+}
+
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -781,7 +836,7 @@ function enrich(v){
  }
 
  const col=v.layout==="Columns";
- return {...v,downloadLink:v.downloadLink||"",sideAssetLink:v.sideAssetLink||"",playback:mode,playbackNote:note,main:col?"2176 × 1024":"2048 × 768",side:col?"1920 × 1080 shared file for both side screens":"N/A"};
+ return {...v,downloadLink:v.downloadLink||"",sideAssetLink:v.sideAssetLink||"",previewLink:v.previewLink||"",playback:mode,playbackNote:note,main:col?"2176 × 1024":"2048 × 768",side:col?"1920 × 1080 shared file for both side screens":"N/A"};
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
 function statusClass(s){
@@ -799,6 +854,7 @@ function groupFor(v){
 function rowHtml(v, spanning=false){
  const link=(v.downloadLink||"").trim();
  const sideLink=(v.sideAssetLink||"").trim();
+ const previewLink=(v.previewLink||"").trim();
 
  const download=link
    ? `<a class="download-btn" href="${esc(link)}" target="_blank" rel="noopener">Download ↗</a>`
@@ -807,6 +863,10 @@ function rowHtml(v, spanning=false){
  const sideAsset=sideLink
    ? `<a class="side-asset-btn" href="${esc(sideLink)}" target="_blank" rel="noopener">Side Screen ↗</a>`
    : `<span class="side-asset-btn pending" title="No side-screen download linked">Side Screen</span>`;
+
+ const preview=previewLink
+   ? `<a class="preview-btn" href="${esc(previewLink)}" target="_blank" rel="noopener">Preview ↗</a>`
+   : `<span class="preview-btn pending" title="Preview link pending">Preview</span>`;
 
  const playbackClass=v.playback==="TBD" ? "playback-info tbd-text" : "playback-info";
  const sonarHtml=v.sonar
@@ -834,7 +894,7 @@ function rowHtml(v, spanning=false){
      ${sonarHtml}
     </div>
    </div>
-   <div class="row-actions"><button class="details-btn">Details</button>${download}${sideAsset}</div>
+   <div class="row-actions">${download}${sideAsset}${preview}<button class="details-btn">Details</button></div>
   </div>
   <div class="drawer">
    <div class="drawer-grid">
@@ -1037,6 +1097,7 @@ async function refreshFromGoogle(silent=false){
    const notesIndex=firstIndex("Notes");
    const downloadIndex=firstIndex("Download Link","Frame.io Link","Frameio Link");
    const sideAssetIndex=firstIndex("Side Screen Asset Link","Side Asset Link","Side Screen Link");
+   const previewIndex=firstIndex("Preview Link","Review Link","Preview URL");
 
    const essential={
      "ID":idIndex,
@@ -1076,7 +1137,8 @@ async function refreshFromGoogle(silent=false){
        delivered:asTrue(r[deliveredIndex]),
        notes:notesIndex>=0 ? (r[notesIndex]||"") : "",
        downloadLink:downloadIndex>=0 ? (r[downloadIndex]||"") : "",
-       sideAssetLink:sideAssetIndex>=0 ? (r[sideAssetIndex]||"") : ""
+       sideAssetLink:sideAssetIndex>=0 ? (r[sideAssetIndex]||"") : "",
+       previewLink:previewIndex>=0 ? (r[previewIndex]||"") : ""
      }));
 
    if(!live.length)throw new Error("No video rows returned");
