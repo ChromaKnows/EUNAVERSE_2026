@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>EUNAVERSE 2026 Column Video Tracker</title>
+<style>
+:root {
+ --bg:#0b0e14;--panel:#141923;--panel2:#1a2030;--line:#2d3648;
+ --text:#f4f7fb;--muted:#96a2b5;--cyan:#70e5ff;--violet:#b59cff;
+ --green:#58df8b;--yellow:#ffd36b;--orange:#ff9d66;--red:#ff6b79;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+ background:
+ radial-gradient(circle at 15% 0%,rgba(112,229,255,.12),transparent 30%),
+ radial-gradient(circle at 90% 5%,rgba(181,156,255,.14),transparent 30%),
+ var(--bg);
+}
+.wrap{width:min(1240px,calc(100% - 26px));margin:0 auto 70px}
+header{
+ margin-top:14px;padding:18px 20px;border:1px solid var(--line);border-radius:18px;
+ background:rgba(20,25,35,.94);display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap;
+ position:sticky;top:10px;z-index:20;backdrop-filter:blur(16px);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-weight:900;color:#071016;background:linear-gradient(135deg,var(--cyan),var(--violet))}
+.kicker{font-size:10px;letter-spacing:.15em;color:var(--cyan);font-weight:800}
+h1{font-size:24px;margin:3px 0 0;letter-spacing:-.03em}
+.sub{font-size:12px;color:var(--muted);margin-top:5px}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button,a.btn{
+ border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;
+ padding:9px 11px;font:inherit;font-size:11px;font-weight:800;text-decoration:none;cursor:pointer;
+}
+button:hover,a.btn:hover{border-color:#43516a}
+.sync{font-size:10px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--yellow)}
+.sync.live .dot{background:var(--green)} .sync.error .dot{background:var(--orange)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:13px 0}
+.metric{border:1px solid var(--line);background:var(--panel);border-radius:13px;padding:13px 14px}
+.metric span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-weight:800}
+.metric strong{display:block;font-size:24px;margin-top:5px}
+.note{
+ border:1px solid rgba(112,229,255,.18);background:rgba(112,229,255,.05);
+ border-radius:12px;padding:11px 13px;color:var(--muted);font-size:11px;line-height:1.5;margin-bottom:12px
+}
+.toolbar{display:flex;gap:8px;margin:12px 0;align-items:center;flex-wrap:wrap}
+.toolbar input,.toolbar select{
+ background:#10151e;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px 10px;outline:none
+}
+.toolbar input{flex:1 1 260px}
+.group{margin-top:19px}
+.group-title{display:flex;justify-content:space-between;align-items:end;margin:0 2px 8px}
+.group-title h2{font-size:14px;margin:0}
+.group-title span{font-size:10px;color:var(--muted)}
+.list{border:1px solid var(--line);border-radius:15px;overflow:hidden;background:var(--panel)}
+.item{border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.row{
+ display:grid;grid-template-columns:92px minmax(260px,1fr) 155px 145px 88px;
+ align-items:center;gap:10px;padding:12px 14px;min-height:62px;
+}
+.row:hover{background:#192131}
+.id{font-size:10px;color:var(--muted);font-weight:900;letter-spacing:.08em}
+.name{font-weight:800;font-size:13px}
+.duration{font-size:10px;color:var(--muted);margin-top:3px}
+.pill{display:inline-flex;align-items:center;justify-content:center;padding:6px 8px;border:1px solid var(--line);border-radius:999px;font-size:9px;font-weight:900;white-space:nowrap}
+.ready{background:rgba(88,223,139,.10);border-color:rgba(88,223,139,.25);color:#d5f4df}
+.edit{background:rgba(255,157,102,.10);border-color:rgba(255,157,102,.25);color:#ffdec7}
+.approved{background:rgba(88,223,139,.16);border-color:rgba(88,223,139,.38);color:#d9ffe5}
+.notstarted{background:rgba(255,107,121,.10);border-color:rgba(255,107,121,.25);color:#ffd2d7}
+.progress{background:rgba(255,211,107,.10);border-color:rgba(255,211,107,.25);color:#fff1bd}
+.play{color:var(--cyan);border-color:rgba(112,229,255,.25);background:rgba(112,229,255,.06)}
+.tbd{color:var(--yellow);border-color:rgba(255,211,107,.25);background:rgba(255,211,107,.06)}
+.details-btn{padding:7px 9px;background:#10151e}
+.drawer{display:none;padding:0 14px 14px 116px}
+.item.open .drawer{display:block}
+.drawer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.box{border:1px solid #273145;background:#0f141d;border-radius:10px;padding:10px}
+.box b{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#cdd5e3;margin-bottom:5px}
+.box p{font-size:10px;line-height:1.5;color:var(--muted);margin:0}
+.box.full{grid-column:1/-1}
+.other-wrap{margin-top:24px}
+.other{
+ border:1px solid var(--line);border-radius:14px;background:rgba(20,25,35,.78);overflow:hidden
+}
+.other summary{
+ cursor:pointer;list-style:none;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;
+ color:var(--muted);font-size:12px;font-weight:800;
+}
+.other summary::-webkit-details-marker{display:none}
+.other summary:after{content:"＋";font-size:16px;color:var(--cyan)}
+.other[open] summary:after{content:"−"}
+.other-content{border-top:1px solid var(--line)}
+.other .row{opacity:.86}
+.other-note{padding:0 16px 13px;color:var(--muted);font-size:10px;line-height:1.5}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
+@media(max-width:820px){
+ .row{grid-template-columns:76px minmax(200px,1fr) 130px 90px}
+ .status-col{display:none}
+ .drawer{padding-left:14px}
+}
+@media(max-width:620px){
+ header{position:static}
+ .metrics{grid-template-columns:1fr 1fr 1fr}
+ .row{grid-template-columns:70px 1fr 88px}
+ .status-col,.playback-col{display:none}
+ .drawer-grid{grid-template-columns:1fr}
+ .box.full{grid-column:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">
+    <div class="logo">EU</div>
+    <div>
+      <div class="kicker">CHROMA KNOWS · PRODUCTION HANDOFF</div>
+      <h1>EUNAVERSE 2026 Column Video Tracker</h1>
+      <div class="sub">Main-area and side-screen playback information for production.</div>
+    </div>
+  </div>
+  <div class="actions">
+    <div id="sync" class="sync"><span class="dot"></span><span id="syncText">Snapshot ready</span></div>
+    <button id="refresh">↻ Sync Google Sheet</button>
+    <a class="btn" target="_blank" href="https://docs.google.com/spreadsheets/d/1cZG-TJWRtdoUNnU--xSelWxn_1HqwJ6Iio3C3J7wLVs/edit">Google Tracker ↗</a>
+  </div>
+</header>
+
+<section class="metrics">
+ <div class="metric"><span>Column Videos</span><strong id="mTotal">11</strong></div>
+ <div class="metric"><span>Sonar Tested</span><strong id="mSonar">0</strong></div>
+ <div class="metric"><span>Delivered</span><strong id="mDelivered">0</strong></div>
+</section>
+
+<div class="note"><b>Column package:</b> each column video uses a 2176 × 1024 main-area file plus one shared 1920 × 1080 side-screen export for both side screens. Expand a video only when you need playback details or notes.</div>
+
+<div class="toolbar">
+ <input id="search" placeholder="Search column videos...">
+ <select id="status"><option value="">All statuses</option></select>
+</div>
+
+<div id="columnGroups"></div>
+
+<div class="other-wrap">
+<details class="other">
+  <summary><span>Other Videos · Spanning</span><span id="otherCount">5 videos</span></summary>
+  <div class="other-note">These are included for reference only. Production can ignore this section unless spanning-screen information is needed.</div>
+  <div id="otherList" class="other-content"></div>
+</details>
+</div>
+
+<footer>UNAVERSE / EUNAVERSE 2026 · 30 fps · Production column-video handoff.</footer>
+</div>
+
+<script>
+const EMBEDDED=[{"id": "VID-001", "video": "Welcome to Austin, Y'all", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-002", "video": "Orbiting Product Planets +", "layout": "Spanning", "duration": "2:00", "frames": "3600", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "High dependency on final product graphics and copy | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-004", "video": "Space Cowboy", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Highest CGI risk | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-005", "video": "Moon Boots", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-006", "video": "Cosmo Loop", "layout": "Spanning", "duration": ":30 Loop", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Depends on usable source assets | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-007", "video": "Planetary Jump", "layout": "Columns", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Confirm final character and jump direction | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-008", "video": "Slow Planet Move", "layout": "Columns", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Confirm final ambient motion direction | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009", "video": "Product Ambient Budget", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009B", "video": "Product Ambient Grants", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009C", "video": "Product Ambient Payments", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009D", "video": "Product Ambient Procurement", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009E", "video": "Product Ambient Generic", "layout": "Columns", "duration": "TBD", "frames": "", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Generic Product Ambient for periods when no specific product is being discussed: starfield, twinkling stars, shooting stars/comets, subtle gradients, and gentle space motion. No product-specific messaging. Runtime TBD. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010A", "video": "Walk-In 01 - Welcome / Budget", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Rocket blasts in from the bottom, revealing a blank starry sky. Animate Welcome to Austin, Ya'll followed by EUNAVERSE 2026, then hold on the event branding while stars twinkle, comets shoot, and planets rotate. End with Budget product transition (Bars). Part 1 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010B", "video": "Walk-In 02 - Cosmo / Grants", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Planets hang out in frame. Cosmo jumps from one planet to the next, foreground to background, looping as needed to fill the runtime. End with Grants product transition (Squares). Part 2 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010C", "video": "Walk-In 03 - AI Rocket / Payments", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Product planets orbit on their axes. Bring the AI rocket back smaller and have it weave through space and around the planets to reinforce AI woven throughout the products. End with Payments product transition (Credit Card). Part 3 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010D", "video": "Walk-In 04 - Astronaut / Procurement", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Astronaut floats around in space and may wave to the audience. UFO can appear as a floating element without the chase story. End with Procurement product transition (Flower). Petals must transition fully off-screen to a clean gradient so the sequence can loop seamlessly back to Part 1. Part 4 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}];
+const LIVE_CSV_URL="https://docs.google.com/spreadsheets/d/1cZG-TJWRtdoUNnU--xSelWxn_1HqwJ6Iio3C3J7wLVs/gviz/tq?tqx=out:csv&gid=1969762866";
+
+const playback={
+ "VID-001":["TBD","Confirm loop / hold / play-once behavior."],
+ "VID-002":["TBD","Confirm playback behavior."],
+ "VID-004":["TBD","Confirm one-shot or continuous playback."],
+ "VID-005":["TBD","Confirm one-shot or continuous playback."],
+ "VID-006":["Seamless Loop","Repeat continuously."],
+ "VID-007":["TBD","Confirm loop / forward / ping-pong behavior."],
+ "VID-008":["Seamless Loop","Repeat continuously."],
+ "VID-009":["TBD","Product Ambient playback mode not explicitly confirmed."],
+ "VID-009B":["TBD","Product Ambient playback mode not explicitly confirmed."],
+ "VID-009C":["TBD","Product Ambient playback mode not explicitly confirmed."],
+ "VID-009D":["TBD","Product Ambient playback mode not explicitly confirmed."],
+ "VID-009E":["TBD","Runtime and playback behavior are still TBD."],
+ "VID-010A":["Sequence Loop","Part 1 → Part 2."],
+ "VID-010B":["Sequence Loop","Part 2 → Part 3."],
+ "VID-010C":["Sequence Loop","Part 3 → Part 4."],
+ "VID-010D":["Sequence Loop","Part 4 → loop back to Part 1."]
+};
+let rows=EMBEDDED.map(enrich);
+
+function enrich(v){
+ const pb=playback[v.id]||["TBD","Confirm playback behavior."];
+ const col=v.layout==="Columns";
+ return {...v,playback:pb[0],playbackNote:pb[1],main:col?"2176 × 1024":"2048 × 768",side:col?"1920 × 1080 shared file for both side screens":"N/A"};
+}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
+function statusClass(s){
+ s=(s||"").toLowerCase();
+ if(s.includes("approved"))return"approved";
+ if(s.includes("needs edit")||s.includes("blocked"))return"edit";
+ if(s.includes("ready"))return"ready";
+ if(s.includes("progress"))return"progress";
+ if(s.includes("not started"))return"notstarted";
+ return"";
+}
+function groupFor(v){
+ if(v.id.startsWith("VID-009"))return"Product Ambient";
+ if(v.id.startsWith("VID-010"))return"Walk-In Sequence";
+ return"Column Videos";
+}
+function rowHtml(v, spanning=false){
+ return `<div class="item" data-id="${esc(v.id)}">
+  <div class="row">
+   <div class="id">${esc(v.id)}</div>
+   <div><div class="name">${esc(v.video)}</div><div class="duration">${esc(v.duration||"TBD")}</div></div>
+   <div class="status-col"><span class="pill ${statusClass(v.status)}">${esc(v.status||"No Status")}</span></div>
+   <div class="playback-col"><span class="pill ${v.playback==="TBD"?"tbd":"play"}">${esc(v.playback)}</span></div>
+   <div><button class="details-btn">Details</button></div>
+  </div>
+  <div class="drawer">
+   <div class="drawer-grid">
+    <div class="box"><b>Main screen</b><p>${esc(v.main)}</p></div>
+    <div class="box"><b>Side screens</b><p>${esc(v.side)}</p></div>
+    <div class="box"><b>Frames / QC</b><p>${esc(v.frames||"TBD")} frames · Sonar: ${v.sonar?"Tested":"Not tested"} · Delivered: ${v.delivered?"Yes":"No"}</p></div>
+    <div class="box"><b>Playback instruction</b><p>${esc(v.playbackNote)}</p></div>
+    <div class="box full"><b>Tracker note / edit context</b><p>${esc(v.notes||"No tracker note.")}</p></div>
+   </div>
+  </div>
+ </div>`;
+}
+function attachDetails(){
+ document.querySelectorAll(".details-btn").forEach(b=>b.addEventListener("click",e=>{
+   const item=e.target.closest(".item");
+   item.classList.toggle("open");
+   e.target.textContent=item.classList.contains("open")?"Close":"Details";
+ }));
+}
+function render(){
+ const q=document.getElementById("search").value.trim().toLowerCase();
+ const status=document.getElementById("status").value;
+ const columns=rows.filter(v=>v.layout==="Columns").filter(v=>{
+   const hay=[v.id,v.video,v.status,v.playback,v.notes].join(" ").toLowerCase();
+   return (!q||hay.includes(q))&&(!status||v.status===status);
+ });
+ const spanning=rows.filter(v=>v.layout==="Spanning");
+ const order=["Column Videos","Product Ambient","Walk-In Sequence"];
+ let html="";
+ for(const g of order){
+  const items=columns.filter(v=>groupFor(v)===g);
+  if(!items.length)continue;
+  html+=`<section class="group"><div class="group-title"><h2>${g}</h2><span>${items.length} video${items.length===1?"":"s"}</span></div><div class="list">${items.map(v=>rowHtml(v)).join("")}</div></section>`;
+ }
+ document.getElementById("columnGroups").innerHTML=html||'<div class="empty">No column videos match the filters.</div>';
+ document.getElementById("otherList").innerHTML=spanning.map(v=>rowHtml(v,true)).join("");
+ document.getElementById("otherCount").textContent=`${spanning.length} videos`;
+ document.getElementById("mTotal").textContent=rows.filter(v=>v.layout==="Columns").length;
+ document.getElementById("mSonar").textContent=rows.filter(v=>v.layout==="Columns"&&v.sonar).length;
+ document.getElementById("mDelivered").textContent=rows.filter(v=>v.layout==="Columns"&&v.delivered).length;
+ attachDetails();
+}
+function buildStatuses(){
+ const el=document.getElementById("status"), old=el.value;
+ el.innerHTML='<option value="">All statuses</option>';
+ [...new Set(rows.filter(v=>v.layout==="Columns").map(v=>v.status).filter(Boolean))].sort().forEach(s=>{
+  const o=document.createElement("option");o.value=s;o.textContent=s;el.appendChild(o);
+ });
+ el.value=old;
+}
+function csvParse(text){
+ const out=[];let row=[],f="",q=false;
+ for(let i=0;i<text.length;i++){const c=text[i],n=text[i+1];
+  if(c==='"'){if(q&&n==='"'){f+='"';i++;}else q=!q;}
+  else if(c===","&&!q){row.push(f);f="";}
+  else if((c==="\n"||c==="\r")&&!q){if(c==="\r"&&n==="\n")i++;row.push(f);f="";if(row.some(x=>x!==""))out.push(row);row=[];}
+  else f+=c;
+ }
+ if(f.length||row.length){row.push(f);if(row.some(x=>x!==""))out.push(row);}
+ return out;
+}
+async function syncLive(){
+ const sync=document.getElementById("sync"),txt=document.getElementById("syncText");
+ sync.className="sync";txt.textContent="Connecting to Google Sheet…";
+ try{
+  const res=await fetch(LIVE_CSV_URL,{cache:"no-store"});
+  if(!res.ok)throw new Error(res.status);
+  const m=csvParse(await res.text()),h=m[0].map(x=>x.trim()),ix=n=>h.indexOf(n);
+  const need=["ID","Video","Screen Layout","Listed Duration","Total Frames (30 fps)","Status","Sonar Tested","Delivered","Notes"];
+  if(need.some(x=>ix(x)<0))throw new Error("columns");
+  const live=m.slice(1).filter(r=>r[ix("ID")]).map(r=>enrich({
+   id:r[ix("ID")]||"",video:r[ix("Video")]||"",layout:r[ix("Screen Layout")]||"",
+   duration:r[ix("Listed Duration")]||"",frames:r[ix("Total Frames (30 fps)")]||"",
+   status:r[ix("Status")]||"",sonar:String(r[ix("Sonar Tested")]).toLowerCase()==="true",
+   delivered:String(r[ix("Delivered")]).toLowerCase()==="true",notes:r[ix("Notes")]||""
+  }));
+  if(!live.length)throw new Error("empty");
+  rows=live;sync.className="sync live";txt.textContent="Live Google Sheet";
+ }catch(e){
+  rows=EMBEDDED.map(enrich);sync.className="sync error";txt.textContent="Snapshot fallback";
+ }
+ buildStatuses();render();
+}
+["search","status"].forEach(id=>document.getElementById(id).addEventListener(id==="search"?"input":"change",render));
+document.getElementById("refresh").addEventListener("click",syncLive);
+buildStatuses();render();
+</script>
+</body>
+</html>
