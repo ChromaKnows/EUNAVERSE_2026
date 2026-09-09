@@ -346,12 +346,13 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
 
 .playback-info{
  font-size:12px;
- font-weight:800;
- color:var(--text);
+ font-weight:900;
+ color:#ffd36b;
  line-height:1.25;
+ letter-spacing:.01em;
 }
 .playback-info.tbd-text{
- color:var(--yellow);
+ color:#ff9f43;
 }
 .sonar-state{
  display:inline-flex;
@@ -600,6 +601,20 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
  }
 }
 
+
+
+.playback-col{
+ position:relative;
+}
+.playback-col .playback-info{
+ display:inline-block;
+ padding:2px 0;
+ text-shadow:0 0 18px rgba(255,211,107,.08);
+}
+.playback-col .playback-info.tbd-text{
+ text-shadow:0 0 18px rgba(255,159,67,.10);
+}
+
 </style>
 </head>
 <body>
@@ -692,9 +707,24 @@ const playback={
 let rows=EMBEDDED.map(enrich);
 
 function enrich(v){
- const pb=playback[v.id]||["TBD","Confirm playback behavior."];
+ const fallback=playback[v.id]||["TBD","Confirm playback behavior."];
+ const mode=(v.playback||"").trim() || fallback[0];
+ let note=fallback[1];
+
+ if(mode==="Ping-Pong Loop"){
+   note="Play forward to the end, then reverse back to the beginning, repeating continuously.";
+ }else if(mode==="Seamless Loop"){
+   note="Repeat continuously from end back to start.";
+ }else if(mode==="Play Once"){
+   note="Play once from beginning to end.";
+ }else if(mode==="Hold"){
+   note="Hold on screen until production is instructed to change it.";
+ }else if(mode==="TBD"){
+   note="Playback behavior is still to be confirmed.";
+ }
+
  const col=v.layout==="Columns";
- return {...v,downloadLink:v.downloadLink||"",sideAssetLink:v.sideAssetLink||"",playback:pb[0],playbackNote:pb[1],main:col?"2176 × 1024":"2048 × 768",side:col?"1920 × 1080 shared file for both side screens":"N/A"};
+ return {...v,downloadLink:v.downloadLink||"",sideAssetLink:v.sideAssetLink||"",playback:mode,playbackNote:note,main:col?"2176 × 1024":"2048 × 768",side:col?"1920 × 1080 shared file for both side screens":"N/A"};
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
 function statusClass(s){
@@ -933,6 +963,7 @@ async function refreshFromGoogle(silent=false){
    const layoutIndex=firstIndex("Screen Layout");
    const durationIndex=firstIndex("Listed Duration","Duration");
    const framesIndex=firstIndex("Total Frames (30 fps)","Total Frames");
+   const playbackIndex=firstIndex("Playback Info","Playback","Playback Mode");
    const statusIndex=firstIndex("Client Status","Status");
    const sonarIndex=firstIndex("Sonar Tested");
    const deliveredIndex=firstIndex("Delivered");
@@ -973,6 +1004,7 @@ async function refreshFromGoogle(silent=false){
        duration:r[durationIndex]||"",
        frames:r[framesIndex]||"",
        status:r[statusIndex]||"",
+       playback:playbackIndex>=0 ? (r[playbackIndex]||"") : "",
        sonar:asTrue(r[sonarIndex]),
        delivered:asTrue(r[deliveredIndex]),
        notes:notesIndex>=0 ? (r[notesIndex]||"") : "",
