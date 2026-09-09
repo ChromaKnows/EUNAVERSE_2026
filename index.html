@@ -407,6 +407,29 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
  }
 }
 
+
+/* Client status colors */
+.pill.ready-review,
+.pill.status-ready-review{
+ background:#1b1f26 !important;
+ color:#6fb7ff !important;
+ border-color:rgba(111,183,255,.42) !important;
+}
+
+.pill.approved,
+.pill.status-approved{
+ background:#1b1f26 !important;
+ color:#65d98f !important;
+ border-color:rgba(101,217,143,.42) !important;
+}
+
+.pill.needs-edit,
+.pill.status-needs-edit{
+ background:#1b1f26 !important;
+ color:#ffb35c !important;
+ border-color:rgba(255,179,92,.42) !important;
+}
+
 @media(max-width:820px){
  .client-status-col{display:none}
  .column-labels .status-label{display:none}
@@ -539,13 +562,11 @@ function enrich(v){
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
 function statusClass(s){
- s=(s||"").toLowerCase();
- if(s.includes("approved"))return"approved";
- if(s.includes("needs edit")||s.includes("blocked"))return"edit";
- if(s.includes("ready"))return"ready";
- if(s.includes("progress"))return"progress";
- if(s.includes("not started"))return"notstarted";
- return"";
+ const v=String(s||"").trim().toLowerCase();
+ if(v==="ready for review") return "status-ready-review";
+ if(v==="approved") return "status-approved";
+ if(v==="needs edit" || v==="needs edits") return "status-needs-edit";
+ return v.replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"") || "default";
 }
 function groupFor(v){
  if(v.id.startsWith("VID-009"))return"Product Ambient";
