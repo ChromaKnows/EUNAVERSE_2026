@@ -710,7 +710,7 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
   </div>
 </section>
 
-<div class="note"><b>Column package:</b> 2176 × 1024 main-area video + one shared 1920 × 1080 side-screen export for both side screens. Open Details only when technical or playback information is needed.</div>
+<div class="note"><b>Side Screen:</b> When available, the Side Screen link opens the 1920 × 1080 side-screen asset directly. Use it on the side screens when needed, including when no other side-screen content is running.</div>
 
 <div class="toolbar">
  <input id="search" placeholder="Search column videos...">
@@ -805,8 +805,8 @@ function rowHtml(v, spanning=false){
    : `<span class="download-btn pending" title="Main video download link pending">Download</span>`;
 
  const sideAsset=sideLink
-   ? `<a class="side-asset-btn" href="${esc(sideLink)}" target="_blank" rel="noopener">Side Asset ↗</a>`
-   : `<span class="side-asset-btn pending" title="No separate side-screen asset linked">Side Asset</span>`;
+   ? `<a class="side-asset-btn" href="${esc(sideLink)}" target="_blank" rel="noopener">Side Screen ↗</a>`
+   : `<span class="side-asset-btn pending" title="No side-screen download linked">Side Screen</span>`;
 
  const playbackClass=v.playback==="TBD" ? "playback-info tbd-text" : "playback-info";
  const sonarHtml=v.sonar
@@ -814,8 +814,8 @@ function rowHtml(v, spanning=false){
    : `<span class="sonar-state no"><span class="mark">✕</span>Not Tested</span>`;
 
  const sideAssetDetail=sideLink
-   ? `A separate accompanying side-screen asset is linked for this video. Use the Side Asset button to open it.`
-   : `No separate side-screen asset is currently linked.`;
+   ? `A 1920 × 1080 side-screen asset is linked for this video. Use the Side Screen button to open it directly.`
+   : `No separate 1920 × 1080 side-screen asset is currently linked.`;
 
  return `<div class="item" data-id="${esc(v.id)}">
   <div class="row">
@@ -840,7 +840,7 @@ function rowHtml(v, spanning=false){
    <div class="drawer-grid">
     <div class="box"><b>Main screen</b><p>${esc(v.main)}</p></div>
     <div class="box"><b>Side screens</b><p>${esc(v.side)}</p></div>
-    <div class="box"><b>Side Screen Asset</b><p>${esc(sideAssetDetail)}</p></div>
+    <div class="box"><b>Side Screen</b><p>${esc(sideAssetDetail)}</p></div>
     <div class="box"><b>Frames / QC</b><p>${esc(v.frames||"TBD")} frames · Sonar: ${v.sonar?"Tested":"Not tested"} · Delivered: ${v.delivered?"Yes":"No"}</p></div>
     <div class="box"><b>Playback information</b><p>${esc(v.playbackNote)}</p></div>
     <div class="box full"><b>Notes</b><p>${esc(v.notes||"No notes.")}</p></div>
