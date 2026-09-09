@@ -615,6 +615,53 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
  text-shadow:0 0 18px rgba(255,159,67,.10);
 }
 
+
+
+/* Mobile-only production status strip */
+.mobile-meta{
+ display:none;
+}
+
+@media(max-width:620px){
+ .mobile-meta{
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  width:100%;
+  padding-top:8px;
+ }
+
+ .mobile-meta-card{
+  min-width:0;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:rgba(10,14,21,.38);
+  padding:8px 10px;
+ }
+
+ .mobile-meta-label{
+  display:block;
+  margin-bottom:5px;
+  font-size:7px;
+  line-height:1;
+  text-transform:uppercase;
+  letter-spacing:.11em;
+  font-weight:900;
+  color:var(--muted);
+ }
+
+ .mobile-meta .pill{
+  display:inline-flex;
+  max-width:100%;
+  white-space:normal;
+ }
+
+ .mobile-meta .sonar-state{
+  display:inline-flex;
+ }
+}
+
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -777,6 +824,16 @@ function rowHtml(v, spanning=false){
    <div class="playback-col"><div class="${playbackClass}">${esc(v.playback)}</div></div>
    <div class="client-status-col"><span class="pill ${statusClass(v.status)}">${esc(v.status||"No Status")}</span></div>
    <div class="sonar-col">${sonarHtml}</div>
+   <div class="mobile-meta">
+    <div class="mobile-meta-card">
+     <span class="mobile-meta-label">Client Status</span>
+     <span class="pill ${statusClass(v.status)}">${esc(v.status||"No Status")}</span>
+    </div>
+    <div class="mobile-meta-card">
+     <span class="mobile-meta-label">Tested</span>
+     ${sonarHtml}
+    </div>
+   </div>
    <div class="row-actions"><button class="details-btn">Details</button>${download}${sideAsset}</div>
   </div>
   <div class="drawer">
