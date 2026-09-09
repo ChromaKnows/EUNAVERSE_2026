@@ -248,6 +248,15 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
  letter-spacing:.1em;
  color:#d8dfeb;
 }
+
+.subgroup-copy{
+ margin:0 2px 9px 14px;
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.5;
+ max-width:920px;
+}
+
 .subgroup-title span{
  margin-left:auto;
  color:var(--muted);
@@ -353,7 +362,7 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
   </div>
   <div class="actions">
     <div class="sync-wrap">
-      <div id="dataState" class="sync"><span class="dot"></span><span id="dataStateText">Saved data loaded</span></div>
+      <div id="dataState" class="sync"><span class="dot"></span><span id="dataStateText">Saved data loaded · Refresh for latest</span></div>
       <div id="lastSync" class="last-sync">Last refreshed on this device: not yet</div>
     </div>
     <button id="refresh">↻ Refresh</button>
@@ -403,29 +412,7 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
 
 <script>
 const EMBEDDED=[{"id": "VID-001", "video": "Welcome to Austin, Y'all", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-002", "video": "Orbiting Product Planets +", "layout": "Spanning", "duration": "2:00", "frames": "3600", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "High dependency on final product graphics and copy | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-004", "video": "Space Cowboy", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Highest CGI risk | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-005", "video": "Moon Boots", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-006", "video": "Cosmo Loop", "layout": "Spanning", "duration": ":30 Loop", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Depends on usable source assets | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-007", "video": "Planetary Jump", "layout": "Columns", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Confirm final character and jump direction | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-008", "video": "Slow Planet Move", "layout": "Columns", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Confirm final ambient motion direction | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009", "video": "Product Ambient Budget", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009B", "video": "Product Ambient Grants", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009C", "video": "Product Ambient Payments", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009D", "video": "Product Ambient Procurement", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009E", "video": "Product Ambient Generic", "layout": "Columns", "duration": "TBD", "frames": "", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Generic Product Ambient for periods when no specific product is being discussed: starfield, twinkling stars, shooting stars/comets, subtle gradients, and gentle space motion. No product-specific messaging. Runtime TBD. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010A", "video": "Walk-In 01 - Welcome / Budget", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Rocket blasts in from the bottom, revealing a blank starry sky. Animate Welcome to Austin, Ya'll followed by EUNAVERSE 2026, then hold on the event branding while stars twinkle, comets shoot, and planets rotate. End with Budget product transition (Bars). Part 1 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010B", "video": "Walk-In 02 - Cosmo / Grants", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Planets hang out in frame. Cosmo jumps from one planet to the next, foreground to background, looping as needed to fill the runtime. End with Grants product transition (Squares). Part 2 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010C", "video": "Walk-In 03 - AI Rocket / Payments", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Product planets orbit on their axes. Bring the AI rocket back smaller and have it weave through space and around the planets to reinforce AI woven throughout the products. End with Payments product transition (Credit Card). Part 3 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010D", "video": "Walk-In 04 - Astronaut / Procurement", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Astronaut floats around in space and may wave to the audience. UFO can appear as a floating element without the chase story. End with Procurement product transition (Flower). Petals must transition fully off-screen to a clean gradient so the sequence can loop seamlessly back to Part 1. Part 4 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}];
-const SHEET_ID="1cZG-TJWRtdoUNnU--xSelWxn_1HqwJ6Iio3C3J7wLVs";
-const SHEET_GID="1969762866";
-const LIVE_CSV_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${SHEET_GID}`;
-const LIVE_EXPORT_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
-
-const frameioLinks={
- "VID-001":"",
- "VID-002":"",
- "VID-004":"",
- "VID-005":"",
- "VID-006":"",
- "VID-007":"",
- "VID-008":"",
- "VID-009":"",
- "VID-009B":"",
- "VID-009C":"",
- "VID-009D":"",
- "VID-009E":"",
- "VID-010A":"",
- "VID-010B":"",
- "VID-010C":"",
- "VID-010D":""
-};
+const PUBLISHED_CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSGJ9FXU7BXdclL2vBlaqAI-Xg-yr4O8xwLlqDbO5faW9-ZXG83eG6erZ_hERLyGa0rhBqt1_VnsneE/pub?gid=1969762866&single=true&output=csv";
 
 const playback={
  "VID-001":["TBD","Confirm loop / hold / play-once behavior."],
@@ -450,7 +437,7 @@ let rows=EMBEDDED.map(enrich);
 function enrich(v){
  const pb=playback[v.id]||["TBD","Confirm playback behavior."];
  const col=v.layout==="Columns";
- return {...v,playback:pb[0],playbackNote:pb[1],main:col?"2176 × 1024":"2048 × 768",side:col?"1920 × 1080 shared file for both side screens":"N/A"};
+ return {...v,downloadLink:v.downloadLink||"",playback:pb[0],playbackNote:pb[1],main:col?"2176 × 1024":"2048 × 768",side:col?"1920 × 1080 shared file for both side screens":"N/A"};
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
 function statusClass(s){
@@ -468,7 +455,7 @@ function groupFor(v){
  return"General";
 }
 function rowHtml(v, spanning=false){
- const link=(frameioLinks[v.id]||"").trim();
+ const link=(v.downloadLink||"").trim();
  const download=link
    ? `<a class="download-btn" href="${esc(link)}" target="_blank" rel="noopener">Download ↗</a>`
    : `<span class="download-btn pending" title="Frame.io link pending">Download</span>`;
@@ -498,6 +485,20 @@ function attachDetails(){
    e.target.textContent=item.classList.contains("open")?"Close":"Details";
  }));
 }
+
+function subgroupDescription(group){
+ if(group==="General"){
+   return "General-purpose column videos. Euna Solutions will let production know when and where each video should be used.";
+ }
+ if(group==="Product Ambient"){
+   return "Product Ambient videos are used during product-specific speaker segments. Carly / Euna Solutions will let production know which ambient video should run for each speaker or topic.";
+ }
+ if(group==="Walk-In Sequence"){
+   return "Walk-in videos are one four-part sequence. Play them in order 01 → 02 → 03 → 04, then seamlessly loop back to 01.";
+ }
+ return "";
+}
+
 function render(){
  const q=document.getElementById("search").value.trim().toLowerCase();
  const status=document.getElementById("status").value;
@@ -513,6 +514,7 @@ function render(){
   if(!items.length)continue;
   inner+=`<section class="subgroup">
     <div class="subgroup-title"><h3>${g}</h3><span>${items.length} video${items.length===1?"":"s"}</span></div>
+    <div class="subgroup-copy">${subgroupDescription(g)}</div>
     <div class="list">
       <div class="column-labels">
         <div>ID</div><div>Video</div><div>Playback</div><div class="status-label">Status</div><div class="right">Actions</div>
@@ -584,41 +586,51 @@ async function refreshFromGoogle(){
  const original=btn.textContent;
 
  state.className="sync";
- txt.textContent="Refreshing from Google Sheet…";
+ txt.textContent="Refreshing from Video Tracker…";
  btn.disabled=true;
  btn.textContent="Refreshing…";
 
- const stamp=Date.now();
- const candidates=[
-   `${LIVE_CSV_URL}&_=${stamp}`,
-   `${LIVE_EXPORT_URL}&_=${stamp}`
- ];
+ try{
+   const joiner=PUBLISHED_CSV_URL.includes("?")?"&":"?";
+   const url=`${PUBLISHED_CSV_URL}${joiner}_=${Date.now()}`;
 
- let lastError=null;
+   const res=await fetch(url,{
+     cache:"no-store",
+     redirect:"follow"
+   });
 
- for(const url of candidates){
-   try{
-     const res=await fetch(url,{
-       cache:"no-store",
-       redirect:"follow",
-       headers:{"Cache-Control":"no-cache","Pragma":"no-cache"}
-     });
-     if(!res.ok)throw new Error(`HTTP ${res.status}`);
+   if(!res.ok)throw new Error(`HTTP ${res.status}`);
 
-     const csv=await res.text();
+   const csv=await res.text();
+   if(/<html|<!doctype/i.test(csv))throw new Error("Google returned HTML instead of CSV");
 
-     // A private/login response is commonly HTML, not tracker CSV.
-     if(/<html|<!doctype/i.test(csv))throw new Error("Google returned a sign-in page");
+   const m=csvParse(csv);
+   if(!m.length)throw new Error("No tracker data returned");
 
-     const m=csvParse(csv);
-     if(!m.length)throw new Error("No sheet data returned");
+   const h=m[0].map(x=>x.trim());
+   const ix=n=>h.indexOf(n);
 
-     const h=m[0].map(x=>x.trim());
-     const ix=n=>h.indexOf(n);
-     const need=["ID","Video","Screen Layout","Listed Duration","Total Frames (30 fps)","Status","Sonar Tested","Delivered","Notes"];
-     if(need.some(x=>ix(x)<0))throw new Error("The returned sheet does not contain the expected Video Tracker columns");
+   const required=[
+     "ID",
+     "Video",
+     "Screen Layout",
+     "Listed Duration",
+     "Total Frames (30 fps)",
+     "Status",
+     "Sonar Tested",
+     "Delivered",
+     "Notes"
+   ];
 
-     const live=m.slice(1).filter(r=>r[ix("ID")]).map(r=>enrich({
+   if(required.some(x=>ix(x)<0)){
+     throw new Error("Published Video Tracker columns do not match the expected layout");
+   }
+
+   const downloadIndex=ix("Download Link");
+
+   const live=m.slice(1)
+     .filter(r=>r[ix("ID")])
+     .map(r=>enrich({
        id:r[ix("ID")]||"",
        video:r[ix("Video")]||"",
        layout:r[ix("Screen Layout")]||"",
@@ -627,37 +639,32 @@ async function refreshFromGoogle(){
        status:r[ix("Status")]||"",
        sonar:String(r[ix("Sonar Tested")]).toLowerCase()==="true",
        delivered:String(r[ix("Delivered")]).toLowerCase()==="true",
-       notes:r[ix("Notes")]||""
+       notes:r[ix("Notes")]||"",
+       downloadLink:downloadIndex>=0 ? (r[downloadIndex]||"") : ""
      }));
 
-     if(!live.length)throw new Error("No video rows returned");
+   if(!live.length)throw new Error("No video rows returned");
 
-     rows=live;
-     buildStatuses();
-     render();
+   rows=live;
+   buildStatuses();
+   render();
+   saveLastSync();
 
-     const now=new Date();
-     state.className="sync live";
-     txt.textContent="Google data updated";
-     saveLastSync();
-     btn.disabled=false;
-     btn.textContent=original;
-     return;
-   }catch(e){
-     lastError=e;
-   }
+   state.className="sync live";
+   txt.textContent="Video Tracker updated";
+   btn.disabled=false;
+   btn.textContent=original;
+ }catch(e){
+   state.className="sync error";
+   txt.textContent="Refresh failed · saved data shown";
+   btn.disabled=false;
+   btn.textContent=original;
+   console.warn("Published Video Tracker refresh failed:",e);
+   alert(
+     "The published Video Tracker could not be refreshed right now. " +
+     "The saved tracker data is still displayed."
+   );
  }
-
- state.className="sync error";
- txt.textContent="Refresh unavailable · saved data shown";
- btn.disabled=false;
- btn.textContent=original;
- console.warn("Google Sheet refresh failed:",lastError);
- alert(
-   "The page could not read fresh data from Google Sheets. " +
-   "The saved tracker data is still displayed.\\n\\n" +
-   "This usually means the Google Sheet is not exposed through a browser-readable public/published endpoint."
- );
 }
 ["search","status"].forEach(id=>document.getElementById(id).addEventListener(id==="search"?"input":"change",render));
 document.getElementById("refresh").addEventListener("click",refreshFromGoogle);
