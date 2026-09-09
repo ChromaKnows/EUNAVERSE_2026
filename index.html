@@ -717,6 +717,113 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
  }
 }
 
+
+/* Tertiary package: social media and event edits */
+.social-hero{
+ margin:26px 0 12px;
+ border:1px solid rgba(236,128,214,.30);
+ border-radius:18px;
+ background:
+   linear-gradient(135deg,rgba(236,128,214,.10),rgba(181,156,255,.06)),
+   var(--panel);
+ padding:20px 22px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:20px;
+ box-shadow:0 16px 40px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.025);
+}
+.social-hero-main{min-width:240px}
+.social-hero-kicker{
+ font-size:9px;
+ letter-spacing:.16em;
+ color:#f0a0df;
+ font-weight:900;
+ margin-bottom:5px;
+}
+.social-hero-title{
+ font-size:28px;
+ line-height:1;
+ letter-spacing:-.02em;
+ font-weight:900;
+ color:var(--text);
+}
+.social-hero-desc{
+ margin-top:7px;
+ color:var(--muted);
+ font-size:11px;
+}
+.social-stats{
+ display:flex;
+ align-items:stretch;
+ gap:8px;
+}
+.social-stat{
+ min-width:86px;
+ padding:10px 12px;
+ border:1px solid rgba(236,128,214,.18);
+ border-radius:12px;
+ background:rgba(10,14,21,.42);
+ text-align:center;
+}
+.social-stat span{
+ display:block;
+ font-size:8px;
+ text-transform:uppercase;
+ letter-spacing:.11em;
+ color:var(--muted);
+ font-weight:900;
+ margin-bottom:4px;
+}
+.social-stat strong{font-size:20px;color:var(--text)}
+.social-package-note{
+ margin:0 0 12px;
+ border:1px solid rgba(236,128,214,.14);
+ background:rgba(236,128,214,.035);
+ border-radius:12px;
+ padding:11px 13px;
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.5;
+}
+.social-package-note b{color:var(--text)}
+.social-section-shell{
+ border:1px solid rgba(236,128,214,.19);
+ border-radius:18px;
+ overflow:hidden;
+ background:rgba(12,17,25,.46);
+}
+.social-section-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:14px 16px;
+ border-bottom:1px solid rgba(236,128,214,.14);
+ background:linear-gradient(90deg,rgba(236,128,214,.065),rgba(181,156,255,.025));
+}
+.social-section-head h2{
+ margin:0;
+ font-size:13px;
+ letter-spacing:.08em;
+ font-weight:900;
+}
+.social-section-head span{
+ color:var(--muted);
+ font-size:9px;
+ font-weight:800;
+}
+.social-section-body{padding:14px}
+.pill.not-started{
+ background:#1b1f26 !important;
+ color:#ff8d9a !important;
+ border-color:rgba(255,107,121,.42) !important;
+}
+@media(max-width:760px){
+ .social-hero{align-items:flex-start;flex-direction:column}
+ .social-stats{width:100%}
+ .social-stat{flex:1;min-width:0}
+}
+
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -791,11 +898,28 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
 
 <div id="spanningPackage"></div>
 
+<section class="social-hero">
+  <div class="social-hero-main">
+    <div class="social-hero-kicker">TERTIARY PRODUCTION PACKAGE</div>
+    <div class="social-hero-title">SOCIAL MEDIA EDITS</div>
+    <div class="social-hero-desc">Social and event-screen adaptations requested from existing EUNAVERSE creative.</div>
+  </div>
+  <div class="social-stats">
+    <div class="social-stat"><span>Total</span><strong id="socialTotal">3</strong></div>
+    <div class="social-stat"><span>Tested</span><strong id="socialTested">0</strong></div>
+    <div class="social-stat"><span>Delivered</span><strong id="socialDelivered">0</strong></div>
+  </div>
+</section>
+
+<div class="social-package-note"><b>Social media package:</b> Event-TV and 4:5 social adaptations derived from existing EUNAVERSE videos. Open Details for output size, timing, playback information, and edit notes.</div>
+
+<div id="socialPackage"></div>
+
 <footer>UNAVERSE / EUNAVERSE 2026 · 30 fps · Production column-video handoff.</footer>
 </div>
 
 <script>
-const EMBEDDED=[{"id": "VID-001", "video": "Welcome to Austin, Y'all", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-002", "video": "Orbiting Product Planets +", "layout": "Spanning", "duration": "2:00", "frames": "3600", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "High dependency on final product graphics and copy | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-004", "video": "Space Cowboy", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Highest CGI risk | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-005", "video": "Moon Boots", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-006", "video": "Cosmo Loop", "layout": "Spanning", "duration": ":30 Loop", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Depends on usable source assets | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-007", "video": "Planetary Jump", "layout": "Columns", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Confirm final character and jump direction | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-008", "video": "Slow Planet Move", "layout": "Columns", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Confirm final ambient motion direction | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009", "video": "Product Ambient Budget", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009B", "video": "Product Ambient Grants", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009C", "video": "Product Ambient Payments", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009D", "video": "Product Ambient Procurement", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009E", "video": "Product Ambient Generic", "layout": "Columns", "duration": "TBD", "frames": "", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Generic Product Ambient for periods when no specific product is being discussed: starfield, twinkling stars, shooting stars/comets, subtle gradients, and gentle space motion. No product-specific messaging. Runtime TBD. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010A", "video": "Walk-In 01 - Welcome / Budget", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Rocket blasts in from the bottom, revealing a blank starry sky. Animate Welcome to Austin, Ya'll followed by EUNAVERSE 2026, then hold on the event branding while stars twinkle, comets shoot, and planets rotate. End with Budget product transition (Bars). Part 1 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010B", "video": "Walk-In 02 - Cosmo / Grants", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Planets hang out in frame. Cosmo jumps from one planet to the next, foreground to background, looping as needed to fill the runtime. End with Grants product transition (Squares). Part 2 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010C", "video": "Walk-In 03 - AI Rocket / Payments", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Product planets orbit on their axes. Bring the AI rocket back smaller and have it weave through space and around the planets to reinforce AI woven throughout the products. End with Payments product transition (Credit Card). Part 3 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010D", "video": "Walk-In 04 - Astronaut / Procurement", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Astronaut floats around in space and may wave to the audience. UFO can appear as a floating element without the chase story. End with Procurement product transition (Flower). Petals must transition fully off-screen to a clean gradient so the sequence can loop seamlessly back to Part 1. Part 4 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}];
+const EMBEDDED=[{"id": "VID-001", "video": "Welcome to Austin, Y'all", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-002", "video": "Orbiting Product Planets +", "layout": "Spanning", "duration": "2:00", "frames": "3600", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "High dependency on final product graphics and copy | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-004", "video": "Space Cowboy", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Highest CGI risk | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-005", "video": "Moon Boots", "layout": "Spanning", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-006", "video": "Cosmo Loop", "layout": "Spanning", "duration": ":30 Loop", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Depends on usable source assets | Working tech: 2048 x 768 spanning export. Resolution 768. Pixel pitch pending final confirmation."}, {"id": "VID-007", "video": "Planetary Jump", "layout": "Columns", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Confirm final character and jump direction | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-008", "video": "Slow Planet Move", "layout": "Columns", "duration": ":30", "frames": "900", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Confirm final ambient motion direction | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009", "video": "Product Ambient Budget", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009B", "video": "Product Ambient Grants", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009C", "video": "Product Ambient Payments", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009D", "video": "Product Ambient Procurement", "layout": "Columns", "duration": "3:00", "frames": "5400", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Await source validation | Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens. Pixel pitch 3.5 mm pending final confirmation."}, {"id": "VID-009E", "video": "Product Ambient Generic", "layout": "Columns", "duration": "TBD", "frames": "", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Generic Product Ambient for periods when no specific product is being discussed: starfield, twinkling stars, shooting stars/comets, subtle gradients, and gentle space motion. No product-specific messaging. Runtime TBD. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010A", "video": "Walk-In 01 - Welcome / Budget", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Rocket blasts in from the bottom, revealing a blank starry sky. Animate Welcome to Austin, Ya'll followed by EUNAVERSE 2026, then hold on the event branding while stars twinkle, comets shoot, and planets rotate. End with Budget product transition (Bars). Part 1 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010B", "video": "Walk-In 02 - Cosmo / Grants", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Planets hang out in frame. Cosmo jumps from one planet to the next, foreground to background, looping as needed to fill the runtime. End with Grants product transition (Squares). Part 2 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010C", "video": "Walk-In 03 - AI Rocket / Payments", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Product planets orbit on their axes. Bring the AI rocket back smaller and have it weave through space and around the planets to reinforce AI woven throughout the products. End with Payments product transition (Credit Card). Part 3 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-010D", "video": "Walk-In 04 - Astronaut / Procurement", "layout": "Columns", "duration": ":30-:40", "frames": "900-1200", "status": "Ready for Review", "sonar": false, "delivered": false, "notes": "Astronaut floats around in space and may wave to the audience. UFO can appear as a floating element without the chase story. End with Procurement product transition (Flower). Petals must transition fully off-screen to a clean gradient so the sequence can loop seamlessly back to Part 1. Part 4 of 4, target :30-:40. Working tech: main area 2176 x 1024 + one shared 1920 x 1080 side-screen export for both side screens."}, {"id": "VID-011", "video": "Cosmo / Bull & Bowl TV Edit", "layout": "Social", "duration": "TBD", "frames": "TBD", "playback": "TBD", "status": "Not Started", "sonar": false, "delivered": false, "notes": "Requested event-screen derivative of the current Cosmo piece for the evening social event at Bull & Bowl. Deliver at 1920 × 1080, 72 dpi, for TV playback. Based on the current Cosmo / bull standoff direction. Duration and playback behavior TBD."}, {"id": "VID-012", "video": "Welcome to Austin / EUNAVERSE 2026 Social Edit", "layout": "Social", "duration": "TBD", "frames": "TBD", "playback": "TBD", "status": "Not Started", "sonar": false, "delivered": false, "notes": "Social resize of Welcome to Austin, Y'all / EUNAVERSE 2026 at 1080 × 1350. End after the wave transition brings in EUNAVERSE 2026 / Where the Future of GovTech Takes Flight. Do not transition back to the sky with the Euna logo and tags. Duration TBD."}, {"id": "VID-013", "video": "Space Cowboy Social Edit", "layout": "Social", "duration": "TBD", "frames": "TBD", "playback": "TBD", "status": "Not Started", "sonar": false, "delivered": false, "notes": "Social edit of the end of Space Cowboy at 1080 × 1350. Only show the astronaut waving. Suggested start: astronaut at the bottom of frame, floating up, then waving. Duration TBD."}];
 const PUBLISHED_CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSGJ9FXU7BXdclL2vBlaqAI-Xg-yr4O8xwLlqDbO5faW9-ZXG83eG6erZ_hERLyGa0rhBqt1_VnsneE/pub?gid=1969762866&single=true&output=csv";
 
 const playback={
@@ -814,7 +938,16 @@ const playback={
  "VID-010A":["Sequence Loop","Part 1 → Part 2."],
  "VID-010B":["Sequence Loop","Part 2 → Part 3."],
  "VID-010C":["Sequence Loop","Part 3 → Part 4."],
- "VID-010D":["Sequence Loop","Part 4 → loop back to Part 1."]
+ "VID-010D":["Sequence Loop","Part 4 → loop back to Part 1."],
+ "VID-011":["TBD","Confirm playback behavior for Bull & Bowl TV playback."],
+ "VID-012":["TBD","Confirm social playback behavior."],
+ "VID-013":["TBD","Confirm social playback behavior."]
+};
+
+const socialOutput={
+ "VID-011":"1920 × 1080 · 72 dpi",
+ "VID-012":"1080 × 1350",
+ "VID-013":"1080 × 1350"
 };
 let rows=EMBEDDED.map(enrich);
 
@@ -836,7 +969,10 @@ function enrich(v){
  }
 
  const col=v.layout==="Columns";
- return {...v,downloadLink:v.downloadLink||"",sideAssetLink:v.sideAssetLink||"",previewLink:v.previewLink||"",playback:mode,playbackNote:note,main:col?"2176 × 1024":"2048 × 768",side:col?"1920 × 1080 shared file for both side screens":"N/A"};
+ const social=v.layout==="Social";
+ const main=col ? "2176 × 1024" : social ? (socialOutput[v.id]||"See Notes") : "2048 × 768";
+ const side=col ? "1920 × 1080 shared file for both side screens" : "N/A";
+ return {...v,downloadLink:v.downloadLink||"",sideAssetLink:v.sideAssetLink||"",previewLink:v.previewLink||"",playback:mode,playbackNote:note,main,side};
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
 function statusClass(s){
@@ -937,6 +1073,7 @@ function render(){
    return (!q||hay.includes(q))&&(!status||v.status===status);
  });
  const spanning=rows.filter(v=>v.layout==="Spanning");
+ const social=rows.filter(v=>v.layout==="Social");
  const order=["General","Product Ambient","Walk-In Sequence"];
  let inner="";
  for(const g of order){
@@ -973,6 +1110,19 @@ function render(){
       </div>
     </section>`;
 
+ document.getElementById("socialPackage").innerHTML=
+   `<section class="social-section-shell">
+      <div class="social-section-head"><h2>SOCIAL MEDIA EDITS</h2><span>${social.length} video${social.length===1?"":"s"}</span></div>
+      <div class="social-section-body">
+       <div class="list">
+        <div class="column-labels">
+          <div>ID</div><div>Video</div><div>Playback Info</div><div class="status-label">Client Status</div><div>Tested</div><div class="right">Actions</div>
+        </div>
+        ${social.map(v=>rowHtml(v)).join("")}
+       </div>
+      </div>
+    </section>`;
+
  document.getElementById("mTotal").textContent=rows.filter(v=>v.layout==="Columns").length;
  document.getElementById("mSonar").textContent=rows.filter(v=>v.layout==="Columns"&&v.sonar).length;
  document.getElementById("mDelivered").textContent=rows.filter(v=>v.layout==="Columns"&&v.delivered).length;
@@ -980,6 +1130,10 @@ function render(){
  document.getElementById("sTotal").textContent=spanning.length;
  document.getElementById("sTested").textContent=spanning.filter(v=>v.sonar).length;
  document.getElementById("sDelivered").textContent=spanning.filter(v=>v.delivered).length;
+
+ document.getElementById("socialTotal").textContent=social.length;
+ document.getElementById("socialTested").textContent=social.filter(v=>v.sonar).length;
+ document.getElementById("socialDelivered").textContent=social.filter(v=>v.delivered).length;
  attachDetails();
 }
 function buildStatuses(){
