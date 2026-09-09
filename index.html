@@ -661,16 +661,18 @@ function saveLastSync(){
  document.getElementById("lastSync").textContent=formatLocalSyncTime(now);
 }
 
-async function refreshFromGoogle(){
+async function refreshFromGoogle(silent=false){
  const state=document.getElementById("dataState");
  const txt=document.getElementById("dataStateText");
  const btn=document.getElementById("refresh");
  const original=btn.textContent;
 
- state.className="sync";
- txt.textContent="Refreshing from Video Tracker…";
- btn.disabled=true;
- btn.textContent="Refreshing…";
+ if(!silent){
+   state.className="sync";
+   txt.textContent="Refreshing from Video Tracker…";
+   btn.disabled=true;
+   btn.textContent="Refreshing…";
+ }
 
  try{
    const joiner=PUBLISHED_CSV_URL.includes("?")?"&":"?";
@@ -689,39 +691,65 @@ async function refreshFromGoogle(){
    const m=csvParse(csv);
    if(!m.length)throw new Error("No tracker data returned");
 
-   const h=m[0].map(x=>x.trim());
+   // Normalize headers so Google publishing delays or harmless whitespace/BOM
+   // changes do not break the whole tracker.
+   const h=m[0].map(x=>String(x||"").replace(/^\uFEFF/,"").trim());
    const ix=n=>h.indexOf(n);
+   const firstIndex=(...names)=>{
+     for(const n of names){
+       const i=ix(n);
+       if(i>=0)return i;
+     }
+     return -1;
+   };
 
-   const required=[
-     "ID",
-     "Video",
-     "Screen Layout",
-     "Listed Duration",
-     "Total Frames (30 fps)",
-     "Client Status",
-     "Sonar Tested",
-     "Delivered",
-     "Notes"
-   ];
+   const idIndex=firstIndex("ID");
+   const videoIndex=firstIndex("Video");
+   const layoutIndex=firstIndex("Screen Layout");
+   const durationIndex=firstIndex("Listed Duration","Duration");
+   const framesIndex=firstIndex("Total Frames (30 fps)","Total Frames");
+   const statusIndex=firstIndex("Client Status","Status");
+   const sonarIndex=firstIndex("Sonar Tested");
+   const deliveredIndex=firstIndex("Delivered");
+   const notesIndex=firstIndex("Notes");
+   const downloadIndex=firstIndex("Download Link","Frame.io Link","Frameio Link");
 
-   if(required.some(x=>ix(x)<0)){
-     throw new Error("Published Video Tracker columns do not match the expected layout");
+   const essential={
+     "ID":idIndex,
+     "Video":videoIndex,
+     "Screen Layout":layoutIndex,
+     "Listed Duration":durationIndex,
+     "Total Frames":framesIndex,
+     "Client Status / Status":statusIndex,
+     "Sonar Tested":sonarIndex,
+     "Delivered":deliveredIndex
+   };
+
+   const missing=Object.entries(essential)
+     .filter(([,i])=>i<0)
+     .map(([name])=>name);
+
+   if(missing.length){
+     throw new Error(`Missing published columns: ${missing.join(", ")}`);
    }
 
-   const downloadIndex=ix("Download Link");
+   const asTrue=value=>{
+     const s=String(value??"").trim().toLowerCase();
+     return s==="true" || s==="yes" || s==="1" || s==="✓" || s==="tested";
+   };
 
    const live=m.slice(1)
-     .filter(r=>r[ix("ID")])
+     .filter(r=>r[idIndex])
      .map(r=>enrich({
-       id:r[ix("ID")]||"",
-       video:r[ix("Video")]||"",
-       layout:r[ix("Screen Layout")]||"",
-       duration:r[ix("Listed Duration")]||"",
-       frames:r[ix("Total Frames (30 fps)")]||"",
-       status:r[ix("Client Status")]||"",
-       sonar:String(r[ix("Sonar Tested")]).trim().toLowerCase()==="true",
-       delivered:String(r[ix("Delivered")]).trim().toLowerCase()==="true",
-       notes:r[ix("Notes")]||"",
+       id:r[idIndex]||"",
+       video:r[videoIndex]||"",
+       layout:r[layoutIndex]||"",
+       duration:r[durationIndex]||"",
+       frames:r[framesIndex]||"",
+       status:r[statusIndex]||"",
+       sonar:asTrue(r[sonarIndex]),
+       delivered:asTrue(r[deliveredIndex]),
+       notes:notesIndex>=0 ? (r[notesIndex]||"") : "",
        downloadLink:downloadIndex>=0 ? (r[downloadIndex]||"") : ""
      }));
 
@@ -737,20 +765,34 @@ async function refreshFromGoogle(){
    txt.textContent="Video Tracker updated";
    btn.disabled=false;
    btn.textContent=original;
+   return true;
  }catch(e){
-   state.className="sync error";
-   txt.textContent="Refresh failed · saved data shown";
+   console.warn("Published Video Tracker refresh failed:",e);
+
+   // Keep whatever data the viewer already has. Automatic checks should
+   // never interrupt the production team with a modal popup.
+   if(silent){
+     if(loadCachedRows()){
+       buildStatuses();
+       render();
+       state.className="sync live";
+       txt.textContent="Last synced data loaded";
+     }else{
+       state.className="sync error";
+       txt.textContent="Live update unavailable · saved data shown";
+     }
+   }else{
+     state.className="sync error";
+     txt.textContent="Could not update · last synced data shown";
+   }
+
    btn.disabled=false;
    btn.textContent=original;
-   console.warn("Published Video Tracker refresh failed:",e);
-   alert(
-     "The published Video Tracker could not be refreshed right now. " +
-     "The saved tracker data is still displayed."
-   );
+   return false;
  }
 }
 ["search","status"].forEach(id=>document.getElementById(id).addEventListener(id==="search"?"input":"change",render));
-document.getElementById("refresh").addEventListener("click",refreshFromGoogle);
+document.getElementById("refresh").addEventListener("click",()=>refreshFromGoogle(false));
 const hadCache=loadCachedRows();
 buildStatuses();
 render();
@@ -766,7 +808,7 @@ if(hadCache){
 // On GitHub / normal web hosting, automatically check Google for fresher data.
 // Local file previews stay manual to avoid repeated permission prompts.
 if(location.protocol==="http:" || location.protocol==="https:"){
- setTimeout(()=>refreshFromGoogle(),250);
+ setTimeout(()=>refreshFromGoogle(true),350);
 }
 </script>
 </body>
