@@ -415,7 +415,7 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
 }
 
 
-/* Client status colors */
+/* Status colors */
 .pill.ready-review,
 .pill.status-ready-review{
  background:#1b1f26 !important;
@@ -430,6 +430,12 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
  border-color:rgba(101,217,143,.42) !important;
 }
 
+.pill.status-handoff-complete{
+ background:#1b1f26 !important;
+ color:#8fb7d6 !important;
+ border-color:rgba(143,183,214,.42) !important;
+}
+
 .pill.needs-edit,
 .pill.status-needs-edit{
  background:#1b1f26 !important;
@@ -437,7 +443,7 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
  border-color:rgba(255,179,92,.42) !important;
 }
 
-/* Desktop alignment: pull Sonar Tested closer to Client Status without touching mobile layout */
+/* Desktop alignment: pull Sonar Tested closer to Status without touching mobile layout */
 @media(min-width:821px){
  .sonar-col,
  .column-labels > div:nth-child(5){
@@ -1009,6 +1015,7 @@ function statusClass(s){
  const v=String(s||"").trim().toLowerCase();
  if(v==="ready for review") return "status-ready-review";
  if(v==="approved") return "status-approved";
+ if(v==="handoff complete") return "status-handoff-complete";
  if(v==="needs edit" || v==="needs edits") return "status-needs-edit";
  return v.replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"") || "default";
 }
@@ -1055,7 +1062,7 @@ function rowHtml(v, spanning=false){
    <div class="sonar-col">${sonarHtml}</div>
    <div class="mobile-meta">
     <div class="mobile-meta-card">
-     <span class="mobile-meta-label">Client Status</span>
+     <span class="mobile-meta-label">Status</span>
      <span class="pill ${statusClass(v.status)}">${esc(v.status||"No Status")}</span>
     </div>
     <div class="mobile-meta-card">
@@ -1117,7 +1124,7 @@ function render(){
     <div class="subgroup-copy">${subgroupDescription(g)}</div>
     <div class="list">
       <div class="column-labels">
-        <div>ID</div><div>Video</div><div>Playback Info</div><div class="status-label">Client Status</div><div>Sonar Tested</div><div class="right">Actions</div>
+        <div>ID</div><div>Video</div><div>Playback Info</div><div class="status-label">Status</div><div>Sonar Tested</div><div class="right">Actions</div>
       </div>
       ${items.map(v=>rowHtml(v)).join("")}
     </div>
@@ -1136,7 +1143,7 @@ function render(){
       <div class="spanning-section-body">
        <div class="list">
         <div class="column-labels">
-          <div>ID</div><div>Video</div><div>Playback Info</div><div class="status-label">Client Status</div><div>Tested</div><div class="right">Actions</div>
+          <div>ID</div><div>Video</div><div>Playback Info</div><div class="status-label">Status</div><div>Tested</div><div class="right">Actions</div>
         </div>
         ${spanning.map(v=>rowHtml(v,true)).join("")}
        </div>
@@ -1149,7 +1156,7 @@ function render(){
       <div class="social-section-body">
        <div class="list">
         <div class="column-labels">
-          <div>ID</div><div>Video</div><div>Playback Info</div><div class="status-label">Client Status</div><div>Tested</div><div class="right">Actions</div>
+          <div>ID</div><div>Video</div><div>Playback Info</div><div class="status-label">Status</div><div>Tested</div><div class="right">Actions</div>
         </div>
         ${social.map(v=>rowHtml(v)).join("")}
        </div>
@@ -1278,7 +1285,7 @@ async function refreshFromGoogle(silent=false){
    const durationIndex=firstIndex("Listed Duration","Duration");
    const framesIndex=firstIndex("Total Frames (30 fps)","Total Frames");
    const playbackIndex=firstIndex("Playback Info","Playback","Playback Mode");
-   const statusIndex=firstIndex("Client Status","Status");
+   const statusIndex=firstIndex("Status","Client Status");
    const sonarIndex=firstIndex("Sonar Tested");
    const deliveredIndex=firstIndex("Delivered");
    const notesIndex=firstIndex("Notes");
@@ -1292,7 +1299,7 @@ async function refreshFromGoogle(silent=false){
      "Screen Layout":layoutIndex,
      "Listed Duration":durationIndex,
      "Total Frames":framesIndex,
-     "Client Status / Status":statusIndex,
+     "Status":statusIndex,
      "Sonar Tested":sonarIndex,
      "Delivered":deliveredIndex
    };
