@@ -443,7 +443,7 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
  border-color:rgba(255,179,92,.42) !important;
 }
 
-/* Desktop alignment: pull Sonar Tested closer to Status without touching mobile layout */
+/* Desktop alignment: pull Tested closer to Status without touching mobile layout */
 @media(min-width:821px){
  .sonar-col,
  .column-labels > div:nth-child(5){
@@ -887,7 +887,7 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
   </div>
   <div class="column-stats">
     <div class="column-stat"><span>Total</span><strong id="mTotal">11</strong></div>
-    <div class="column-stat"><span>Sonar Tested</span><strong id="mSonar">0</strong></div>
+    <div class="column-stat"><span>Tested</span><strong id="mSonar">0</strong></div>
     <div class="column-stat"><span>Delivered</span><strong id="mDelivered">0</strong></div>
   </div>
 </section>
@@ -1077,7 +1077,7 @@ function rowHtml(v, spanning=false){
     <div class="box"><b>Main screen</b><p>${esc(v.main)}</p></div>
     <div class="box"><b>Side screens</b><p>${esc(v.side)}</p></div>
     <div class="box"><b>Side Screen</b><p>${esc(sideAssetDetail)}</p></div>
-    <div class="box"><b>Frames / QC</b><p>${esc(v.frames||"TBD")} frames · Sonar: ${sonarLabel(v.sonar)} · Delivered: ${deliveredLabel(v.delivered)}</p></div>
+    <div class="box"><b>Frames / QC</b><p>${esc(v.frames||"TBD")} frames · Tested: ${sonarLabel(v.sonar)} · Delivered: ${deliveredLabel(v.delivered)}</p></div>
     <div class="box"><b>Playback information</b><p>${esc(v.playbackNote)}</p></div>
     <div class="box full"><b>Notes</b><p>${esc(v.notes||"No notes.")}</p></div>
    </div>
@@ -1124,7 +1124,7 @@ function render(){
     <div class="subgroup-copy">${subgroupDescription(g)}</div>
     <div class="list">
       <div class="column-labels">
-        <div>ID</div><div>Video</div><div>Playback Info</div><div class="status-label">Status</div><div>Sonar Tested</div><div class="right">Actions</div>
+        <div>ID</div><div>Video</div><div>Playback Info</div><div class="status-label">Status</div><div>Tested</div><div class="right">Actions</div>
       </div>
       ${items.map(v=>rowHtml(v)).join("")}
     </div>
@@ -1286,7 +1286,7 @@ async function refreshFromGoogle(silent=false){
    const framesIndex=firstIndex("Total Frames (30 fps)","Total Frames");
    const playbackIndex=firstIndex("Playback Info","Playback","Playback Mode");
    const statusIndex=firstIndex("Status","Client Status");
-   const sonarIndex=firstIndex("Sonar Tested");
+   const sonarIndex=firstIndex("Tested","Sonar Tested");
    const deliveredIndex=firstIndex("Delivered");
    const notesIndex=firstIndex("Notes");
    const downloadIndex=firstIndex("Download Link","Frame.io Link","Frameio Link");
@@ -1300,7 +1300,7 @@ async function refreshFromGoogle(silent=false){
      "Listed Duration":durationIndex,
      "Total Frames":framesIndex,
      "Status":statusIndex,
-     "Sonar Tested":sonarIndex,
+     "Tested":sonarIndex,
      "Delivered":deliveredIndex
    };
 
