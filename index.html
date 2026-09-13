@@ -389,6 +389,12 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
  border-color:rgba(200,209,223,.32);
  background:rgba(200,209,223,.08);
 }
+.sonar-state.led{color:#dbe2ff}
+.sonar-state.led .mark{
+ color:#8fa7ff;
+ border-color:rgba(143,167,255,.48);
+ background:rgba(127,156,255,.12);
+}
 .client-status-col{
  opacity:.80;
 }
@@ -844,6 +850,93 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
  .social-stat{flex:1;min-width:0}
 }
 
+
+/* Simple client-side access gate for GitHub Pages */
+body.tracker-locked{
+ overflow:hidden;
+}
+body.tracker-locked .wrap{
+ visibility:hidden;
+}
+.auth-gate{
+ position:fixed;
+ inset:0;
+ z-index:99999;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:24px;
+ background:
+  radial-gradient(circle at 50% 20%, rgba(127,156,255,.12), transparent 34%),
+  #0d0f14;
+}
+.auth-gate[hidden]{display:none}
+.auth-card{
+ width:min(420px,100%);
+ padding:28px;
+ border:1px solid rgba(255,255,255,.10);
+ border-radius:18px;
+ background:rgba(20,23,31,.96);
+ box-shadow:0 28px 80px rgba(0,0,0,.45);
+ text-align:center;
+}
+.auth-kicker{
+ margin-bottom:8px;
+ color:#7f9cff;
+ font-size:10px;
+ font-weight:900;
+ letter-spacing:.16em;
+ text-transform:uppercase;
+}
+.auth-card h2{
+ margin:0 0 8px;
+ font-size:26px;
+}
+.auth-card p{
+ margin:0 0 20px;
+ color:var(--muted);
+ font-size:13px;
+ line-height:1.5;
+}
+.auth-form{
+ display:flex;
+ gap:10px;
+}
+.auth-form input{
+ flex:1;
+ min-width:0;
+ padding:12px 14px;
+ border:1px solid var(--line);
+ border-radius:10px;
+ background:#11141b;
+ color:#fff;
+ outline:none;
+}
+.auth-form input:focus{
+ border-color:rgba(127,156,255,.72);
+ box-shadow:0 0 0 3px rgba(127,156,255,.10);
+}
+.auth-form button{
+ padding:12px 16px;
+ border:1px solid rgba(127,156,255,.50);
+ border-radius:10px;
+ background:#171b2a;
+ color:#9fb1ff;
+ font-weight:900;
+ cursor:pointer;
+}
+.auth-error{
+ min-height:18px;
+ margin-top:12px;
+ color:#ff8d9a;
+ font-size:11px;
+ font-weight:800;
+}
+@media(max-width:520px){
+ .auth-form{flex-direction:column}
+ .auth-form button{width:100%}
+}
+
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -856,7 +949,19 @@ footer{color:var(--muted);font-size:10px;text-align:center;margin-top:28px}
 </script>
 
 </head>
-<body>
+<body class="tracker-locked">
+<div id="authGate" class="auth-gate" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="auth-card">
+    <div class="auth-kicker">EUNAVERSE 2026</div>
+    <h2 id="authTitle">Video Tracker</h2>
+    <p>Enter the tracker password to continue.</p>
+    <form id="authForm" class="auth-form" autocomplete="off">
+      <input id="authPassword" type="password" placeholder="Password" aria-label="Tracker password" autocomplete="current-password">
+      <button type="submit">Enter</button>
+    </form>
+    <div id="authError" class="auth-error" aria-live="polite"></div>
+  </div>
+</div>
 <div class="wrap">
 <header>
   <div class="brand">
@@ -971,19 +1076,32 @@ const socialOutput={
 };
 let rows=EMBEDDED.map(enrich);
 
-function triState(value){
+function testState(value){
  const s=String(value??"").trim().toLowerCase();
- if(value===true || s==="true" || s==="yes" || s==="1" || s==="✓" || s==="tested") return "true";
+ if(s==="led verified" || s==="led-verified" || s==="columns verified" || s==="column verified") return "led-verified";
+ if(value===true || s==="true" || s==="yes" || s==="1" || s==="✓" || s==="tested" || s==="system tested" || s==="system-tested") return "system-tested";
+ if(s==="n/a" || s==="na" || s==="not applicable" || s==="not-applicable") return "na";
+ return "not-tested";
+}
+function deliveredState(value){
+ const s=String(value??"").trim().toLowerCase();
+ if(value===true || s==="true" || s==="yes" || s==="1" || s==="✓" || s==="delivered") return "true";
  if(s==="n/a" || s==="na" || s==="not applicable" || s==="not-applicable") return "na";
  return "false";
 }
-function isTrueState(value){return triState(value)==="true";}
+function isTestedState(value){
+ const state=testState(value);
+ return state==="system-tested" || state==="led-verified";
+}
 function sonarLabel(value){
- const state=triState(value);
- return state==="true" ? "Tested" : state==="na" ? "N/A" : "Not tested";
+ const state=testState(value);
+ if(state==="led-verified") return "LED Verified";
+ if(state==="system-tested") return "System Tested";
+ if(state==="na") return "N/A";
+ return "Not Tested";
 }
 function deliveredLabel(value){
- const state=triState(value);
+ const state=deliveredState(value);
  return state==="true" ? "Yes" : state==="na" ? "N/A" : "No";
 }
 
@@ -1008,7 +1126,7 @@ function enrich(v){
  const social=v.layout==="Social";
  const main=col ? "2176 × 1024" : social ? (socialOutput[v.id]||"See Notes") : "2048 × 768";
  const side=col ? "1920 × 1080 shared file for both side screens" : "N/A";
- return {...v,sonar:triState(v.sonar),delivered:triState(v.delivered),downloadLink:v.downloadLink||"",sideAssetLink:v.sideAssetLink||"",previewLink:v.previewLink||"",playback:mode,playbackNote:note,main,side};
+ return {...v,sonar:testState(v.sonar),delivered:deliveredState(v.delivered),downloadLink:v.downloadLink||"",sideAssetLink:v.sideAssetLink||"",previewLink:v.previewLink||"",playback:mode,playbackNote:note,main,side};
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
 function statusClass(s){
@@ -1042,12 +1160,14 @@ function rowHtml(v, spanning=false){
    : `<span class="preview-btn pending" title="Preview link pending">Preview</span>`;
 
  const playbackClass=v.playback==="TBD" ? "playback-info tbd-text" : "playback-info";
- const sonarState=triState(v.sonar);
- const sonarHtml=sonarState==="true"
-   ? `<span class="sonar-state yes"><span class="mark">✓</span>Tested</span>`
-   : sonarState==="na"
-     ? `<span class="sonar-state na"><span class="mark">—</span>N/A</span>`
-     : `<span class="sonar-state no"><span class="mark">✕</span>Not Tested</span>`;
+ const sonarState=testState(v.sonar);
+ const sonarHtml=sonarState==="led-verified"
+   ? `<span class="sonar-state led"><span class="mark">✓✓</span>LED Verified</span>`
+   : sonarState==="system-tested"
+     ? `<span class="sonar-state yes"><span class="mark">✓</span>System Tested</span>`
+     : sonarState==="na"
+       ? `<span class="sonar-state na"><span class="mark">—</span>N/A</span>`
+       : `<span class="sonar-state no"><span class="mark">✕</span>Not Tested</span>`;
 
  const sideAssetDetail=sideLink
    ? `A 1920 × 1080 side-screen asset is linked for this video. Use the Side Screen button to open it directly.`
@@ -1164,15 +1284,15 @@ function render(){
     </section>`;
 
  document.getElementById("mTotal").textContent=rows.filter(v=>v.layout==="Columns").length;
- document.getElementById("mSonar").textContent=rows.filter(v=>v.layout==="Columns"&&isTrueState(v.sonar)).length;
+ document.getElementById("mSonar").textContent=rows.filter(v=>v.layout==="Columns"&&isTestedState(v.sonar)).length;
  document.getElementById("mDelivered").textContent=rows.filter(v=>v.layout==="Columns"&&isTrueState(v.delivered)).length;
 
  document.getElementById("sTotal").textContent=spanning.length;
- document.getElementById("sTested").textContent=spanning.filter(v=>isTrueState(v.sonar)).length;
+ document.getElementById("sTested").textContent=spanning.filter(v=>isTestedState(v.sonar)).length;
  document.getElementById("sDelivered").textContent=spanning.filter(v=>isTrueState(v.delivered)).length;
 
  document.getElementById("socialTotal").textContent=social.length;
- document.getElementById("socialTested").textContent=social.filter(v=>isTrueState(v.sonar)).length;
+ document.getElementById("socialTested").textContent=social.filter(v=>isTestedState(v.sonar)).length;
  document.getElementById("socialDelivered").textContent=social.filter(v=>isTrueState(v.delivered)).length;
  attachDetails();
 }
@@ -1368,24 +1488,66 @@ async function refreshFromGoogle(silent=false){
    return false;
  }
 }
-["search","status"].forEach(id=>document.getElementById(id).addEventListener(id==="search"?"input":"change",render));
-document.getElementById("refresh").addEventListener("click",()=>refreshFromGoogle(false));
-const hadCache=loadCachedRows();
-buildStatuses();
-render();
-loadLastSync();
+let trackerStarted=false;
+function startTracker(){
+ if(trackerStarted)return;
+ trackerStarted=true;
 
-if(hadCache){
- const state=document.getElementById("dataState");
- const txt=document.getElementById("dataStateText");
- state.className="sync live";
- txt.textContent="Last synced data loaded";
+ ["search","status"].forEach(id=>document.getElementById(id).addEventListener(id==="search"?"input":"change",render));
+ document.getElementById("refresh").addEventListener("click",()=>refreshFromGoogle(false));
+ const hadCache=loadCachedRows();
+ buildStatuses();
+ render();
+ loadLastSync();
+
+ if(hadCache){
+  const state=document.getElementById("dataState");
+  const txt=document.getElementById("dataStateText");
+  state.className="sync live";
+  txt.textContent="Last synced data loaded";
+ }
+
+ // On GitHub / normal web hosting, automatically check Google for fresher data.
+ // Local file previews stay manual to avoid repeated permission prompts.
+ if(location.protocol==="http:" || location.protocol==="https:"){
+  setTimeout(()=>refreshFromGoogle(true),350);
+ }
 }
 
-// On GitHub / normal web hosting, automatically check Google for fresher data.
-// Local file previews stay manual to avoid repeated permission prompts.
-if(location.protocol==="http:" || location.protocol==="https:"){
- setTimeout(()=>refreshFromGoogle(true),350);
+const TRACKER_PASSWORD_HASH="8b297d94d02aa42dfa9f5b1ab4ef6b8771c0e4755749b34243de10453dd33dcc";
+async function sha256(text){
+ const bytes=new TextEncoder().encode(text);
+ const digest=await crypto.subtle.digest("SHA-256",bytes);
+ return Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+function unlockTracker(){
+ document.body.classList.remove("tracker-locked");
+ document.getElementById("authGate").hidden=true;
+ sessionStorage.setItem("eunaverseTrackerUnlocked","1");
+ startTracker();
+}
+async function checkTrackerPassword(){
+ const input=document.getElementById("authPassword");
+ const error=document.getElementById("authError");
+ const entered=input.value;
+ error.textContent="";
+ if(await sha256(entered)===TRACKER_PASSWORD_HASH){
+  input.value="";
+  unlockTracker();
+ }else{
+  error.textContent="Incorrect password.";
+  input.select();
+ }
+}
+document.getElementById("authForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ checkTrackerPassword();
+});
+
+if(sessionStorage.getItem("eunaverseTrackerUnlocked")==="1"){
+ unlockTracker();
+}else{
+ setTimeout(()=>document.getElementById("authPassword").focus(),0);
 }
 </script>
 </body>
