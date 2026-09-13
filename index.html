@@ -1093,6 +1093,9 @@ function isTestedState(value){
  const state=testState(value);
  return state==="system-tested" || state==="led-verified";
 }
+function isDeliveredState(value){
+ return deliveredState(value)==="true";
+}
 function sonarLabel(value){
  const state=testState(value);
  if(state==="led-verified") return "LED Verified";
@@ -1285,15 +1288,15 @@ function render(){
 
  document.getElementById("mTotal").textContent=rows.filter(v=>v.layout==="Columns").length;
  document.getElementById("mSonar").textContent=rows.filter(v=>v.layout==="Columns"&&isTestedState(v.sonar)).length;
- document.getElementById("mDelivered").textContent=rows.filter(v=>v.layout==="Columns"&&isTrueState(v.delivered)).length;
+ document.getElementById("mDelivered").textContent=rows.filter(v=>v.layout==="Columns"&&isDeliveredState(v.delivered)).length;
 
  document.getElementById("sTotal").textContent=spanning.length;
  document.getElementById("sTested").textContent=spanning.filter(v=>isTestedState(v.sonar)).length;
- document.getElementById("sDelivered").textContent=spanning.filter(v=>isTrueState(v.delivered)).length;
+ document.getElementById("sDelivered").textContent=spanning.filter(v=>isDeliveredState(v.delivered)).length;
 
  document.getElementById("socialTotal").textContent=social.length;
  document.getElementById("socialTested").textContent=social.filter(v=>isTestedState(v.sonar)).length;
- document.getElementById("socialDelivered").textContent=social.filter(v=>isTrueState(v.delivered)).length;
+ document.getElementById("socialDelivered").textContent=social.filter(v=>isDeliveredState(v.delivered)).length;
  attachDetails();
 }
 function buildStatuses(){
